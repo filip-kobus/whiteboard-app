@@ -10,7 +10,7 @@ export default function Home() {
   
 	return (
 	  <div className="mainHeading">
-		<h1>Welcome to whiteboard app</h1>
+		<h1>Welcome to whiteboard app!!!</h1>
 		<button onClick={handleOpenWhiteboard}>OPEN WHITEBOARD</button>
 	  </div>
 	);
