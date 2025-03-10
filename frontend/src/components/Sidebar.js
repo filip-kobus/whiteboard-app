@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router"; // Fixed import
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
@@ -7,44 +7,27 @@ const Sidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        setSidebarOpen(false);
-      }
-    };
-
-    if (sidebarOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [sidebarOpen]);
-
   return (
     <div ref={sidebarRef} className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-      {/* Sidebar Toggle Icon */}
-      {!sidebarOpen && (
-        <div className="sidebar_icon" onClick={() => setSidebarOpen(true)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-            className="sidebar_svg_icon"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
-            />
-          </svg>
-        </div>
-      )}
+      {/* Sidebar Toggle Icon (Always Visible, Rotates Dynamically) */}
+      <div
+        className={`sidebar_icon ${sidebarOpen ? "rotate_right" : "rotate_left"}`}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="30"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          className="sidebar_svg_icon"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+          />
+        </svg>
+      </div>
 
       {/* Sidebar Content */}
       {sidebarOpen && (
@@ -55,10 +38,16 @@ const Sidebar = () => {
             <p>Home</p>
           </div>
 
-          {/* Clickable Users Item */}
+          {/* Clickable Option Item */}
+          <div className="sidebar_item" onClick={() => { navigate("/my-boards"); setSidebarOpen(false); }}>
+            <i className="fas fa-user"></i>
+            <p>Boards</p>
+          </div>
+
+          {/* Clickable Option Item */}
           <div className="sidebar_item">
             <i className="fas fa-user"></i>
-            <p>Users</p>
+            <p>Account</p>
           </div>
         </div>
       )}

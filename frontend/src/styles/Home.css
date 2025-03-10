@@ -8,3 +8,73 @@
   width: 50%;
   padding: 10px;
 }
+
+/* Page Title with More Spacing */
+.board-page-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px; /* Increased spacing */
+}
+
+/* Board Selection Container */
+.board-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Centered Board Wrapper */
+.board-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+  scrollbar-width: none;
+  justify-content: center; /* Centers boards dynamically */
+  flex-wrap: wrap; /* Ensures spreading even when resizing */
+}
+
+.board-scroll::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari */
+}
+
+/* Individual Board Wrapper */
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Board Card Design */
+.board-card {
+  width: 160px;
+  min-width: 160px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.board-card:hover {
+  transform: scale(1.05);
+}
+
+/* Board Images */
+.board-card img {
+  height: 100px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Board Titles (Placed Below the Cards) */
+.board-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  margin-top: 8px;
+}
