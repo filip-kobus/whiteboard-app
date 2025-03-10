@@ -15,8 +15,8 @@ function MyNavbar() {
           {/* Left-aligned navigation links */}
           <Nav className="me-auto gap-4"> {/* Increased spacing between links */}
             <Nav.Link href="/my-boards">My Boards</Nav.Link>
-            <Nav.Link href="#link">Admin Panel</Nav.Link>
-            <Nav.Link href="#contact">Contact</Nav.Link>
+            <Nav.Link href="/admin-panel">Admin Panel</Nav.Link>
+            <Nav.Link href="/contact">Contact</Nav.Link>
           </Nav>
 
           {/* Right-aligned Login and Register links */}

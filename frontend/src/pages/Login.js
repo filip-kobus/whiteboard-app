@@ -1,53 +1,45 @@
 import React from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import MyNavbar from '../components/MyNavbar';
+import '../styles/Login.css';
 
 function Login() {
   return (
     <>
-      {/* Navbar at the top */}
-      <MyNavbar />
+      {/* Login Form */}
+      <div className="login-section">
+        <Container className="d-flex justify-content-center align-items-center login-container">
+          <div className="login-box">
+            <h2 className="text-center title mb-4">Sign in</h2>
+            
+            <Form>
+              {/* Email Input */}
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" placeholder="Enter your email" required />
+              </Form.Group>
 
-      {/* Centered Login Form with Slight Lift */}
-      <Container 
-        className="d-flex justify-content-center align-items-center" 
-        style={{ 
-          minHeight: "70vh", // Moves it closer to the center
-        }}
-      >
-        <div 
-          className="p-5 border rounded shadow bg-white" 
-          style={{ width: '400px' }} // Slightly wider form
-        >
-          <h3 className="text-center mb-4 text-dark">Login</h3>
-          <Form>
-            {/* Email Input */}
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label className="text-dark">Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" required />
-            </Form.Group>
+              {/* Password Input */}
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Enter your password" required />
+              </Form.Group>
 
-            {/* Password Input */}
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label className="text-dark">Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter password" required />
-            </Form.Group>
+              {/* Remember Me & Forgot Password */}
+              <Form.Group className="mb-3 d-flex justify-content-between align-items-center">
+                <Form.Check type="checkbox" label="Remember me" />
+                <a href="/forgot-password" className="text-primary text-decoration-none">
+                  Forgot your password?
+                </a>
+              </Form.Group>
 
-            {/* Remember Me Checkbox & Forgot Password Link */}
-            <Form.Group className="mb-4 d-flex justify-content-between align-items-center">
-              <Form.Check type="checkbox" label="Remember Me" className="text-dark" />
-              <a href="/forgot-password" className="text-primary text-decoration-none">
-                Forgot Password?
-              </a>
-            </Form.Group>
-
-            {/* Login Button */}
-            <Button variant="dark" type="submit" className="w-100 py-2">
-              Login
-            </Button>
-          </Form>
-        </div>
-      </Container>
+              {/* Login Button */}
+              <Button variant="primary" type="submit" className="w-100 submit-button">
+                Continue with email
+              </Button>
+            </Form>
+          </div>
+        </Container>
+      </div>
     </>
   );
 }

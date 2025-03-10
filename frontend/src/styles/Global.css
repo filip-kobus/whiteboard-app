@@ -1,0 +1,107 @@
+.global-background {
+    background-color: #fafafa;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    background-size: 15px 15px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Global Styles */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f8f9fa; /* Matches the navbar & login page */
+    color: #212529; /* Dark text for readability */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Utility Classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Code Blocks Styling */
+  code {
+    font-family: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
+    background-color: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  
+  /* Buttons */
+  button, .btn {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button:hover, .btn:hover {
+    opacity: 0.9;
+  }
+  
+  /* Forms */
+  input, textarea, select {
+    font-family: inherit;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+  }
+  
+  input:focus, textarea:focus, select:focus {
+    border-color: #495057;
+  }
+  
+  /* Links */
+  a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  a:hover {
+    color: #0056b3;
+  }
+  
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 15px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto 25px;
+  }
+
+  .input-field {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+  }

@@ -1,7 +1,6 @@
 import React from 'react';
-import '../styles/Home.css';
+import '../styles/Boards.css';
 import BoardElement from '../components/BoardElement';
-import MyNavbar from '../components/MyNavbar';
 import Container from 'react-bootstrap/Container';
 
 export default function MyBoards() {  
@@ -15,13 +14,10 @@ export default function MyBoards() {
 
   return (
     <>
-      {/* Navbar at the top */}
-      <MyNavbar />
-
       {/* Board Selection Section */}
       <Container className="board-container mt-4">
         {/* Page Title */}
-        <h2 className="board-page-title">Choose board</h2>
+        <h2 className="title mb-5">Choose board</h2>
 
         <div className="board-scroll">
           {boards.map(board => (
