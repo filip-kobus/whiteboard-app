@@ -1,28 +1,38 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router';
-import MyNavbar from './components/MyNavbar';
+import { AuthProvider } from "./utils/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from './components/MainNavbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import MyBoards from './pages/MyBoards';
+import ConfirmRegistration from './pages/ConfirmRegistration';
 import AdminPanel from './pages/AdminPanel';
 import Contact from './pages/Contact';
-import './styles/Global.css'; // Globalne style dla wszystkich stron
+import Account from './pages/Account';
+import './styles/Global.css';
 
 function App() {
   return (
     <div className="global-background">
-      <Router>
-        <MyNavbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/my-boards" element={<MyBoards />} />
-          <Route path="/admin-panel" element={<AdminPanel />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} /> 
+            <Route element={<ProtectedRoute />}>
+              <Route path="/my-boards" element={<MyBoards />} />
+              <Route path="/admin-panel" element={<AdminPanel />} />
+            </Route>
+            <Route path="/confirm-registration" element={<ConfirmRegistration />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/account" element={<Account />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

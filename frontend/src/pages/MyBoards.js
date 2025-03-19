@@ -1,28 +1,56 @@
-import React from 'react';
-import '../styles/Boards.css';
-import BoardElement from '../components/BoardElement';
-import Container from 'react-bootstrap/Container';
+import React, { useState, useEffect } from "react";
+import "../styles/Boards.css";
+import BoardElement from "../components/BoardElement";
+import Container from "react-bootstrap/Container";
+import { useAuth } from "../utils/AuthContext";
 
-export default function MyBoards() {  
-  const boards = [
-    { id: 1, name: 'Blank Board', image: 'https://placehold.co/150x100', url: '/whiteboard' },
-    { id: 2, name: 'Lekcja 1', image: 'https://placehold.co/150x100', url: '/whiteboard' },
-    { id: 3, name: 'Lekcja 2', image: 'https://placehold.co/150x100', url: '/whiteboard' },
-    { id: 4, name: 'Lekcja 3', image: 'https://placehold.co/150x100', url: '/whiteboard' },
-    { id: 5, name: 'Lekcja 4', image: 'https://placehold.co/150x100', url: '/whiteboard' },
-  ];
+export default function MyBoards() {
+  const [boards, setBoards] = useState([]);  // State for storing fetched boards
+  const [loading, setLoading] = useState(true); // State for loading indicator
+  const [error, setError] = useState(null); // State for error handling
+
+  const { user } = useAuth()
+
+
+  useEffect(() => {
+    console.log(user)
+    async function fetchBoards() {
+      const apiUrl = "https://ianedfrbv2.execute-api.eu-central-1.amazonaws.com/default/HelloWorld";  // Replace with your API Gateway URL
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setBoards(data); // Update state with API data
+      } catch (error) {
+        console.error("Error fetching boards:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false); // Stop loading after fetching
+      }
+    }
+
+    fetchBoards();
+  }, []); // Runs only once when component mounts
 
   return (
     <>
-      {/* Board Selection Section */}
       <Container className="board-container mt-4">
-        {/* Page Title */}
         <h2 className="title mb-5">Choose board</h2>
 
+        {/* Loading Indicator */}
+        {loading && <p>Loading boards...</p>}
+
+        {/* Error Message */}
+        {error && <p style={{ color: "red" }}>Error: {error}</p>}
+
+        {/* Board List */}
         <div className="board-scroll">
-          {boards.map(board => (
+          {boards.map((board) => (
             <div key={board.id} className="board-wrapper">
-              <BoardElement boardName={board.name} imageUrl={board.image} destinationUrl={board.url}/>
+              <BoardElement boardName={board.name} imageUrl={board.image} destinationUrl={board.url} />
               <p className="board-title">{board.name}</p>
             </div>
           ))}
