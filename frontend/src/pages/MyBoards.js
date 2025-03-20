@@ -15,7 +15,7 @@ export default function MyBoards() {
   useEffect(() => {
     console.log(user)
     async function fetchBoards() {
-      const apiUrl = process.env.REAC_APP_BOARDS_API_URL;
+      const apiUrl = process.env.REAC_APP_API_URL;
 
       try {
         const response = await fetch(apiUrl);
