@@ -33,18 +33,16 @@ function Login() {
       onSuccess: (result) => {
         console.log("✅ Login successful", result);
 
-        // Retrieve tokens from Cognito response
         const accessToken = result.getAccessToken().getJwtToken();
         const idToken = result.getIdToken().getJwtToken();
         const refreshToken = result.getRefreshToken().getToken();
 
-        // 🛡 Securely store tokens in sessionStorage (NOT localStorage)
         sessionStorage.setItem("accessToken", accessToken);
         sessionStorage.setItem("idToken", idToken);
         sessionStorage.setItem("refreshToken", refreshToken);
 
         login(result.user)
-        navigate("/dashboard"); // Redirect after successful login
+        navigate("/dashboard");
       },
       onFailure: (err) => {
         setError(err.message);
