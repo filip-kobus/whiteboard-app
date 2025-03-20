@@ -15,7 +15,7 @@ export default function MyBoards() {
   useEffect(() => {
     console.log(user)
     async function fetchBoards() {
-      const apiUrl = "https://ianedfrbv2.execute-api.eu-central-1.amazonaws.com/default/HelloWorld";  // Replace with your API Gateway URL
+      const apiUrl = process.env.REAC_APP_BOARDS_API_URL;
 
       try {
         const response = await fetch(apiUrl);
