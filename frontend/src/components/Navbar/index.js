@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import { default as BootstrapNavbar }  from 'react-bootstrap/Navbar';
 
-function Navbar() {
+function Navbar({ signOut }) {
   const user = true;
   const logout = false;
   return (
@@ -28,7 +28,7 @@ function Navbar() {
             {user ? (
               <>
                 <Nav.Link href="/account">Account</Nav.Link>
-                <Nav.Link onClick={ logout }>Logout</Nav.Link>
+                <Nav.Link onClick={ signOut }>Logout</Nav.Link>
               </>
             ) : (
               <>

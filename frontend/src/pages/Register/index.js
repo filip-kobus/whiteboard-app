@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 
+
 function Register() {
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    console.log("Registration Submitted", { nickname, email, password, confirmPassword });
-
-    if(password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-
+  async function handleRegister(e) {
+    e.preventDefault()
   };
 
   return (
