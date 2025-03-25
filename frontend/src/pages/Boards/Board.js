@@ -1,7 +1,8 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 
-function BoardElement({ boardName, imageUrl, destinationUrl }) {
+function Board({ boardName, imageUrl, destinationUrl }) {
+  
   return (
     <a href={destinationUrl} className="board-link">
       <Card className="board-card">
@@ -11,4 +12,4 @@ function BoardElement({ boardName, imageUrl, destinationUrl }) {
   );
 }
 
-export default BoardElement;
+export default Board;

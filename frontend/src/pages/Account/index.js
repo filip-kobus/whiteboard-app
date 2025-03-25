@@ -1,10 +1,10 @@
 import React from "react";
 import { Container, Button, Card } from "react-bootstrap";
-import { useAuth } from "../utils/AuthContext";
 
 
 function Account() {
-  const { user, loading, logout } = useAuth();
+  const user = "Jan"
+  const loading = false
 
   if (loading) {
     return <Container><p>Loading...</p></Container>;
@@ -28,7 +28,7 @@ function Account() {
     <Container className="mt-5">
       <Card className="p-4 shadow-lg">
 
-        <Button onClick={ logout } variant="danger">
+        <Button variant="danger">
           Logout
         </Button>
       </Card>

@@ -1,22 +1,20 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { useAuth } from "../utils/AuthContext";
+import { default as BootstrapNavbar }  from 'react-bootstrap/Navbar';
 
-
-function MainNavbar() {
-  const { user, logout } = useAuth();
-
+function Navbar() {
+  const user = true;
+  const logout = false;
   return (
-    <Navbar expand="lg" className="bg-body-tertiary px-4 py-3">
+    <BootstrapNavbar expand="lg" className="bg-body-tertiary px-4 py-3">
       <Container>
         {/* Brand name */}
-        <Navbar.Brand href="/" className="me-5 fs-4"> 
+        <BootstrapNavbar.Brand href="/" className="me-5 fs-4"> 
           Whiteboard-app
-        </Navbar.Brand>
+        </BootstrapNavbar.Brand>
         
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <BootstrapNavbar.Toggle aria-controls="basic-BootstrapNavbar-nav" />
+        <BootstrapNavbar.Collapse id="basic-BootstrapNavbar-nav">
           
           {/* Left-aligned navigation links */}
           <Nav className="me-auto gap-4"> 
@@ -40,10 +38,10 @@ function MainNavbar() {
             )}
           </Nav>
 
-        </Navbar.Collapse>
+        </BootstrapNavbar.Collapse>
       </Container>
-    </Navbar>
+    </BootstrapNavbar>
   );
 }
 
-export default MainNavbar;
+export default Navbar;

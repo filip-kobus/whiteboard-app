@@ -1,7 +1,7 @@
 import React from "react";
 import { Tldraw } from "tldraw";
 import "tldraw/tldraw.css";
-import Sidebar from '../components/Sidebar';
+import Sidebar from './Sidebar/Sidebar';
 
 
 export default function Whiteboard() {

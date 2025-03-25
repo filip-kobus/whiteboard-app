@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router"; // Fixed import
-import "../styles/Sidebar.css";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();

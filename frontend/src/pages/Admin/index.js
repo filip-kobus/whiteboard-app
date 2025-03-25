@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import '../styles/AdminPanel.css';
+import './Admin.css';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import BoardElement from '../components/BoardElement';
+import BoardElement from '../Boards/Board';
 
 export default function AdminPanel() {  
   const [boards, setBoards] = useState([

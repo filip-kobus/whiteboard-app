@@ -1,53 +1,16 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
-import { CognitoUserPool } from "amazon-cognito-identity-js";
-import { cognitoConfig } from "../utils/CognitoConfig";
-import { useNavigate } from "react-router";
-import { useAuth } from "../utils/AuthContext";
-
-const userPool = new CognitoUserPool(cognitoConfig);
 
 function Login() {
-  const { login } = useAuth()
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  // State definitions for the form fields and error message
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the default form submission behavior
+    console.log("Login attempt with:", email, password);
 
-    const authDetails = new AuthenticationDetails({
-      Username: email,
-      Password: password
-    });
-
-    const user = new CognitoUser({
-      Username: email,
-      Pool: userPool
-    });
-
-    user.authenticateUser(authDetails, {
-      onSuccess: (result) => {
-        console.log("✅ Login successful", result);
-
-        const accessToken = result.getAccessToken().getJwtToken();
-        const idToken = result.getIdToken().getJwtToken();
-        const refreshToken = result.getRefreshToken().getToken();
-
-        sessionStorage.setItem("accessToken", accessToken);
-        sessionStorage.setItem("idToken", idToken);
-        sessionStorage.setItem("refreshToken", refreshToken);
-
-        login(result.user)
-        navigate("/dashboard");
-      },
-      onFailure: (err) => {
-        setError(err.message);
-      }
-    });
   };
 
   return (

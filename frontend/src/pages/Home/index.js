@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/Home.css';
+import './Home.css';
 import { Container, Button, Form } from 'react-bootstrap';
 
 export default function HomePage() {
