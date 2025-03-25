@@ -6,15 +6,12 @@ import useBoards from "./useBoards";
 export default function MyBoards() {
   const { boards, loading, error } = useBoards()
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading boards: {error}</p>;
 
   return (
     <>
       <Container className="board-container mt-4">
         <h2 className="title mb-5">Choose board</h2>
-
-        {loading && <p>Loading boards...</p>}
 
         {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
