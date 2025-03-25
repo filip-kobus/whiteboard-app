@@ -8,9 +8,7 @@ function Login() {
   const [error, setError] = useState('');
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    console.log("Login attempt with:", email, password);
-
+    e.preventDefault();
   };
 
   return (
