@@ -7,7 +7,7 @@ A simple whiteboard app with authentication and protected routes.
 
 1. Clone the repository:
    ```bash
-   git clone https://your-repository-url.git
+   git clone https://github.com/filip-kobus/whiteboard-app
    ```
 
 2. Navigate to the project directory:
@@ -21,7 +21,7 @@ A simple whiteboard app with authentication and protected routes.
    ```
 
 4. Set up your environment variables:
-   - Create a `.env` file in the root directory.
+   - Create a `.env.local` file in the root directory.
    - Add the necessary environment variables (e.g., authentication API URL, etc.) based on the `.env.example` file, or as required by your project.
 
 5. Start the development server:
