@@ -1,10 +1,18 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import { default as BootstrapNavbar }  from 'react-bootstrap/Navbar';
+import { useAppContext } from "../../libs/contextLib";
+import { signOut } from 'aws-amplify/auth';
 
-function Navbar({ signOut }) {
-  const user = true;
-  const logout = false;
+
+function Navbar() {
+  const { isAuthenticated, userHasAuthenticated } = useAppContext();
+
+  async function logout() {
+    await signOut()
+    userHasAuthenticated(false)
+  }
+
   return (
     <BootstrapNavbar expand="lg" className="bg-body-tertiary px-4 py-3">
       <Container>
@@ -17,18 +25,22 @@ function Navbar({ signOut }) {
         <BootstrapNavbar.Collapse id="basic-BootstrapNavbar-nav">
           
           {/* Left-aligned navigation links */}
-          <Nav className="me-auto gap-4"> 
-            <Nav.Link href="/my-boards">My Boards</Nav.Link>
-            <Nav.Link href="/admin-panel">Admin Panel</Nav.Link>
-            <Nav.Link href="/contact">Contact</Nav.Link>
+          <Nav className="me-auto gap-4">
+          {isAuthenticated && 
+            <>
+              <Nav.Link href="/my-boards">My Boards</Nav.Link>
+              <Nav.Link href="/admin-panel">Admin Panel</Nav.Link>
+            </>
+          }
+          <Nav.Link href="/contact">Contact</Nav.Link>
           </Nav>
 
           {/* Right-aligned Login/Register OR Logout */}
           <Nav className="ms-auto gap-3"> 
-            {user ? (
+            {isAuthenticated ? (
               <>
                 <Nav.Link href="/account">Account</Nav.Link>
-                <Nav.Link onClick={ signOut }>Logout</Nav.Link>
+                <Nav.Link onClick={ logout }>Logout</Nav.Link>
               </>
             ) : (
               <>

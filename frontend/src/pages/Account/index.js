@@ -1,9 +1,18 @@
 import { Container, Button, Card, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { useAppContext } from "../../libs/contextLib";
+import { signOut } from 'aws-amplify/auth';
 
-function Account({ user }) {
-  if (!user) {
+function Account() {
+  const { isAuthenticated, userHasAuthenticated } = useAppContext()
+  
+  async function logout() {
+    await signOut()
+    userHasAuthenticated(false)
+  }
+  
+  if (!isAuthenticated) {
     return (
       <Container className="text-center mt-5">
         <Card className="p-4 shadow-lg">
@@ -20,11 +29,10 @@ function Account({ user }) {
   return (
     <Container className="mt-5">
       <Card className="p-4 shadow-lg text-center">
-        <Image src={user.avatarUrl} roundedCircle style={{ width: 100, height: 100, marginBottom: 20 }} />
-        <h3>Welcome, {user.username}</h3>
-        <p><FontAwesomeIcon icon={faUserCircle} /> User ID: {user.userId}</p>
-        <p><FontAwesomeIcon icon={faInfoCircle} /> Session Details: {JSON.stringify(user.signInDetails)}</p>
-        <Button variant="danger">Logout</Button>
+        <h3>Welcome, User</h3>
+        <p><FontAwesomeIcon icon={faUserCircle} /> User ID: 11</p>
+        <p><FontAwesomeIcon icon={faInfoCircle} /> Session Details: 11</p>
+        <Button onClick={logout} variant="danger">Logout</Button>
       </Card>
     </Container>
   );

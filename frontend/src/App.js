@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import React, { useState } from "react";
+import { AppContext } from "./libs/contextLib";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -8,27 +9,46 @@ import Boards from './pages/Boards';
 import Admin from './pages/Admin';
 import Contact from './pages/Contact';
 import Account from './pages/Account';
-import '@aws-amplify/ui-react/styles.css';
+import NotFound from './pages/NotFound';
+import { getCurrentUser } from 'aws-amplify/auth'
 import './index.css';
-import { withAuthenticator } from '@aws-amplify/ui-react';
 
-function App({ signOut, user }) {
+
+function App() {
+  const [isAuthenticated, userHasAuthenticated] = useState(false);
+
+  async function getUser() {
+    try {
+      await getCurrentUser()
+      userHasAuthenticated(true)
+    }
+    catch (err) {
+      userHasAuthenticated(false)
+    }
+  }
+
+  getUser()
+
   return (
-    <div className="global-background">
-        <Router>
-          <Navbar signOut={ signOut }/>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} /> 
-            <Route path="/my-boards" element={<Boards />} />
-            <Route path="/admin-panel" element={<Admin />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/account" element={<Account user={ user } />} />
-          </Routes>
-        </Router>
-    </div>
-  );
-}
+    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+          <div className="global-background">
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/my-boards" element={<Boards />} />
+              <Route path="/admin-panel" element={<Admin />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+        </div>
+    </AppContext.Provider>
 
-export default withAuthenticator(App);
+      )
+    };
+
+export default App;

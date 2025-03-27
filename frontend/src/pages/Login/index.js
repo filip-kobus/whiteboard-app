@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
+import { signIn } from 'aws-amplify/auth';
+import { useAppContext } from "../../libs/contextLib";
 
 function Login() {
   // State definitions for the form fields and error message
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { userHasAuthenticated } = useAppContext();
 
-  async function handleLogin(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-
-  };
+  
+    try {
+      await signIn({
+        username: email,
+        password: password,
+      })
+      alert("Logged in");
+      userHasAuthenticated(true)
+    } catch (e) {
+      alert(e.message);
+    }
+  }
 
   return (
     <div className="login-section">
@@ -20,11 +33,11 @@ function Login() {
 
           {error && <Alert variant="danger">{error}</Alert>}
 
-          <Form onSubmit={handleLogin}>
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Username</Form.Label>
               <Form.Control
-                type="email"
+                type="username"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

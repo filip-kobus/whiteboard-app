@@ -11,7 +11,6 @@ Amplify.configure({
         userPoolClientId: config.cognito.APP_CLIENT_ID,
         userPoolId: config.cognito.USER_POOL_ID,
         loginWith: {
-            username: 'true',
             email: 'true',
           }
       }

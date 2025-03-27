@@ -4,8 +4,10 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import BoardElement from '../Boards/Board';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
-export default function AdminPanel() {  
+
+function AdminPanel() {  
   const [boards, setBoards] = useState([
     { id: 1, name: 'Blank Board', image: 'https://placehold.co/150x100', url: '/whiteboard' },
     { id: 2, name: 'Project Planning', image: 'https://placehold.co/150x100', url: '/whiteboard' },
@@ -110,3 +112,5 @@ export default function AdminPanel() {
     </Container>
   );
 }
+
+export default withAuthenticator(AdminPanel)

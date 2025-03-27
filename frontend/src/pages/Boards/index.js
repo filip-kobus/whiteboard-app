@@ -3,13 +3,13 @@ import BoardElement from "./Board";
 import Container from "react-bootstrap/Container";
 import useBoards from "./useBoards";
 
+
 export default function MyBoards() {
   const { boards, loading, error } = useBoards()
 
   if (error) return <p>Error loading boards: {error}</p>;
-
+  
   return (
-    <>
       <Container className="board-container mt-4">
         <h2 className="title mb-5">Choose board</h2>
 
@@ -24,6 +24,4 @@ export default function MyBoards() {
           ))}
         </div>
       </Container>
-    </>
-  );
-}
+  )}
