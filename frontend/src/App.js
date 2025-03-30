@@ -47,7 +47,11 @@ function App() {
                 </ProtectedRoute>
                 } />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/account" element={<Account />} />
+              <Route path="/account" element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+                } />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>

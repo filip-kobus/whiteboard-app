@@ -2,26 +2,37 @@ import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { signIn } from 'aws-amplify/auth';
 import { useAppContext } from "../../libs/contextLib";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
   // State definitions for the form fields and error message
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
   const { userHasAuthenticated } = useAppContext();
 
   async function handleSubmit(event) {
     event.preventDefault();
-  
+    setAlert({ show: false, variant: '', message: '' });
+
     try {
       await signIn({
         username: email,
         password: password,
-      })
-      alert("Logged in");
-      userHasAuthenticated(true)
-    } catch (e) {
-      alert(e.message);
+      });
+      setAlert({
+        show: true,
+        variant: 'success',
+        message: 'Login successful! Redirecting...'
+      });
+      userHasAuthenticated(true);
+    } catch (error) {
+      setAlert({
+        show: true,
+        variant: 'danger',
+        message: error.message || 'Login failed. Please try again.'
+      });
     }
   }
 
@@ -30,7 +41,22 @@ function Login() {
         <div className="content-container">
           <h2 className="text-center title mb-4">Sign in</h2>
 
-          {error && <Alert variant="danger">{error}</Alert>}
+          {alert.show && (
+          <Alert 
+            variant={alert.variant} 
+            className="custom-alert"
+            dismissible
+            onClose={() => setAlert({ ...alert, show: false })}
+          >
+            <div className="d-flex align-items-center">
+              <FontAwesomeIcon 
+                icon={alert.variant === 'success' ? faCheckCircle : faExclamationCircle} 
+                className="me-2" 
+              />
+              <span>{alert.message}</span>
+            </div>
+          </Alert>
+        )}
 
           <Form className="form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
