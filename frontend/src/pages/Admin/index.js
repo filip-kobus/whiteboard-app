@@ -44,59 +44,60 @@ function AdminPanel() {
       <h2 className="title mb-5">Admin Panel</h2>
 
       {/* Board Creation Form */}
-      <div className="admin-section">
-        <h4>Create a New Board</h4>
-        <Form className="admin-form">
-          <Form.Group className="mb-3">
-            <Form.Label>Board Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter board name"
-              value={newBoardName}
-              onChange={(e) => setNewBoardName(e.target.value)}
-            />
-          </Form.Group>
+      <div className="d-flex justify-content-center mx-auto gap-5">   
+        <div className="content-container">
+          <h4 className='mb-3'>Create a New Board</h4>
+          <Form className="form">
+            <Form.Group className="mb-3">
+              <Form.Label>Board Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter board name"
+                value={newBoardName}
+                onChange={(e) => setNewBoardName(e.target.value)}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Board Image URL (Optional)</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter image URL"
-              value={newBoardImage}
-              onChange={(e) => setNewBoardImage(e.target.value)}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Board Image URL (Optional)</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter image URL"
+                value={newBoardImage}
+                onChange={(e) => setNewBoardImage(e.target.value)}
+              />
+            </Form.Group>
 
-          <Button variant="primary" onClick={handleAddBoard}>Create Board</Button>
-        </Form>
-      </div>
+            <Button className="submit-button" onClick={handleAddBoard}>Create Board</Button>
+          </Form>
+        </div>
 
       {/* Assign Users to Boards */}
-      <div className="admin-section">
-        <h4>Assign Users to a Board</h4>
-        <Form className="admin-form">
-          <Form.Group className="mb-3">
-            <Form.Label>Select Board</Form.Label>
-            <Form.Select onChange={(e) => setSelectedBoard(e.target.value)}>
-              <option value="">Select a board</option>
-              {boards.map((board) => (
-                <option key={board.id} value={board.name}>{board.name}</option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+        <div className="content-container">
+          <h4 className='mb-3'>Assign Users to a Board</h4>
+          <Form className="form">
+            <Form.Group className="mb-3 select" >
+              <Form.Label>Select Board</Form.Label>
+              <select className='form-control' onChange={(e) => setSelectedBoard(e.target.value)}>
+                {boards.map((board) => (
+                  <option key={board.id} value={board.name}>{board.name}</option>
+                ))}
+              </select>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>User Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter user email"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>User Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter user email"
+                value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
+              />
+            </Form.Group>
 
-          <Button variant="success" onClick={handleAssignUser}>Assign User</Button>
-        </Form>
+            <Button className='submit-button' onClick={handleAssignUser}>Assign User</Button>
+          </Form>
+        </div>
       </div>
 
       {/* Display Boards */}
