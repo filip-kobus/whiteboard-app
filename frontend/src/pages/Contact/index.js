@@ -4,7 +4,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 function Contact() {
   return (
     <div className="content-section">
-      <Container className="content-container">
+      <Container className="content-container padding-10">
         <h2 className="text-center mb-4 title">Contact Us</h2>
         <p className="text-center mb-4 subtitle">
           Have a question or need support? Send us a message!

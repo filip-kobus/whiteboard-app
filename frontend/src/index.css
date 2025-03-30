@@ -67,7 +67,7 @@ display: inline-block;
 .submit-button {
   background: linear-gradient(90deg, #3498db, #9b59b6);
   border: none;
-  padding: 12px;
+  padding: 14px;
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.5px;

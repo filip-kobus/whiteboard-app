@@ -1,16 +1,31 @@
 import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
+import { signUp, oauth } from 'aws-amplify/auth';
+import Confirm from "./confirm";
 
 
 function Register() {
-  const [nickname, setNickname] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [isSigned, setIsSigned] = useState(true)
 
   async function handleRegister(e) {
     e.preventDefault()
+    const { isSignUpComplete, userId, nextStep } = await signUp({
+      username: email,
+      password: password,
+      options: {
+        userAttributes: {
+          name: name,
+        },
+      }
+    });
+    setIsSigned(false)
   };
+
+  if(!isSigned) return <Confirm username={email} />
 
   return (
     <>
@@ -20,12 +35,12 @@ function Register() {
 
             <Form className="form" onSubmit={handleRegister}>
               <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
+                <Form.Label>Name</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter your username"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -63,14 +78,16 @@ function Register() {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3 d-flex align-items-center">
-                <Form.Check type="checkbox" required />
-                <span className="ms-2">I agree to the terms and conditions</span>
-              </Form.Group>
-
               <Button variant="primary" type="submit" className="w-100 submit-button">
                 Sign up
               </Button>
+
+              <Form.Group className="mb-3 d-flex gap-3 align-items-center">
+                <span className="me-2">Already have an account?</span>
+                <a href="/login" className="text-primary text-decoration-none">
+                  Sign in
+                </a>
+              </Form.Group>
             </Form>
           </div>
       </div>

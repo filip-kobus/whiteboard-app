@@ -91,6 +91,13 @@ function Login() {
             <Button variant="primary" type="submit" className="w-100 submit-button">
               Continue with email
             </Button>
+
+            <Form.Group className="mb-3 d-flex gap-3 align-items-center mt-2">
+              <span className="me-1">Don't have account?</span>
+              <a href="/register" className="text-primary text-decoration-none">
+                Sign up
+              </a>
+            </Form.Group>
           </Form>
         </div>
     </div>
