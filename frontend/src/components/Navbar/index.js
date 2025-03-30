@@ -28,7 +28,6 @@ function Navbar() {
           <Nav className="me-auto gap-4">
           {isAuthenticated && 
             <>
-              <Nav.Link href="/my-boards">My Boards</Nav.Link>
               <Nav.Link href="/admin-panel">Admin Panel</Nav.Link>
             </>
           }

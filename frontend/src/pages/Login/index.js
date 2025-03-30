@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { signIn } from 'aws-amplify/auth';
 import { useAppContext } from "../../libs/contextLib";
 
@@ -26,16 +26,15 @@ function Login() {
   }
 
   return (
-    <div className="login-section">
-      <Container className="d-flex justify-content-center align-items-center login-container">
-        <div className="login-box">
+    <div className="content-section">
+        <div className="content-container">
           <h2 className="text-center title mb-4">Sign in</h2>
 
           {error && <Alert variant="danger">{error}</Alert>}
 
-          <Form onSubmit={handleSubmit}>
+          <Form className="form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="username"
                 placeholder="Enter your email"
@@ -68,7 +67,6 @@ function Login() {
             </Button>
           </Form>
         </div>
-      </Container>
     </div>
   );
 }

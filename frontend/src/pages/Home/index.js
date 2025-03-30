@@ -7,7 +7,7 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <div className="hero-section">
-        <Container className="text-center">
+        <Container>
           <h1 className="title">Welcome to the Open Source Whiteboard App</h1>
           <p className="subtitle">
             A free-to-use platform for seamless online collaboration.

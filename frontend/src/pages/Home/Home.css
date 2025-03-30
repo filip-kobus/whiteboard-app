@@ -1,23 +1,24 @@
-.Home {
-  text-align: center;
-}
-
-.mainHeading {
-  max-width: fit-content;
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-}
-
 .hero-section {
   padding: 80px 20px;
   text-align: center;
 }
 
-.hero-form {
+.hero-form { 
   display: flex;
   justify-content: center;
   gap: 10px;
   max-width: 500px;
   margin: 0 auto;
+}
+
+.hero-button {
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  border: none;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
 }

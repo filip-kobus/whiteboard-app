@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 
 
 function Register() {
@@ -14,12 +14,11 @@ function Register() {
 
   return (
     <>
-      <div className="register-section">
-        <Container className="d-flex justify-content-center align-items-center register-container">
-          <div className="register-box">
-            <h2 className="text-center title mb-4">Sign Up</h2>
+      <div className="content-section">
+          <div className="content-container">
+            <h2 className="title mb-4">Sign Up</h2>
 
-            <Form onSubmit={handleRegister}>
+            <Form className="form" onSubmit={handleRegister}>
               <Form.Group className="mb-3">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -74,7 +73,6 @@ function Register() {
               </Button>
             </Form>
           </div>
-        </Container>
       </div>
     </>
   );
