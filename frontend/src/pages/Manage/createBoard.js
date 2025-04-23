@@ -1,0 +1,49 @@
+import EmailInviteForm from './emailInvite';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react';
+
+
+export default function CreateBoard() {
+    const [newBoardName, setNewBoardName] = useState('');
+    const [newBoardImage, setNewBoardImage] = useState('');
+    const [selectedBoard, setSelectedBoard] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
+  
+    /** Function to add a new board */
+    const handleAddBoard = () => {
+      ;
+    };
+  
+    /** Function to assign a user to a board */
+    const handleAssignUser = () => {
+      if (!selectedBoard || !userEmail) return;
+      alert(`User ${userEmail} assigned to board ${selectedBoard}`);
+      setUserEmail('');
+    };
+
+      return (
+        <div className="d-flex justify-content-center mx-auto gap-5">   
+            <div className="content-container">
+            <h4 className='mb-3'>Create a New Board</h4>
+            <Form className="form">
+                <Form.Group className="mb-3">
+                <Form.Label>Board Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter board name"
+                    value={newBoardName}
+                    onChange={(e) => setNewBoardName(e.target.value)}
+                />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                <EmailInviteForm />
+                </Form.Group>
+
+                <Button className="submit-button" onClick={handleAddBoard}>Create Board</Button>
+            </Form>
+            </div>
+        </div>
+      )
+}

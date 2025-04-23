@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Boards from './pages/Boards';
-import Admin from './pages/Admin';
+import Manage from './pages/Manage';
 import Contact from './pages/Contact';
 import Account from './pages/Account';
 import Code from './pages/Code';
@@ -39,12 +39,17 @@ function App() {
           <Router>
             <Navbar />
             <Routes>
-              <Route path="/" element={!isAuthenticated ? <Home /> : <Boards />} />
+              <Route path="/" element={!isAuthenticated ? <Home /> : <Manage />} />
               <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
               <Route path="/register" element={<Register />} />
               <Route path="/admin" element={
                 <ProtectedRoute>
-                  <Admin />
+                  <Manage />
+                </ProtectedRoute>
+                } />
+              <Route path="/boards" element={
+                <ProtectedRoute>
+                  <Boards />
                 </ProtectedRoute>
                 } />
               <Route path="/contact" element={<Contact />} />

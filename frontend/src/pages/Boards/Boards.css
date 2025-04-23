@@ -52,3 +52,25 @@
   text-align: center;
   margin-top: 8px;
 }
+
+.board-settings-toggle {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: none !important;
+}
+
+.board-settings-toggle:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.board-settings-toggle::after {
+  display: none !important;
+}
+
+.board-card {
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.board-card:hover {
+  transform: translateY(-5px);
+}
