@@ -9,6 +9,7 @@ import Boards from './pages/Boards';
 import Admin from './pages/Admin';
 import Contact from './pages/Contact';
 import Account from './pages/Account';
+import Code from './pages/Code';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from "./components/ProtectedRoute";
 import { getCurrentUser } from 'aws-amplify/auth'
@@ -41,12 +42,13 @@ function App() {
               <Route path="/" element={!isAuthenticated ? <Home /> : <Boards />} />
               <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/admin-panel" element={
+              <Route path="/admin" element={
                 <ProtectedRoute>
                   <Admin />
                 </ProtectedRoute>
                 } />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/code" element={<Code />} />
               <Route path="/account" element={
                 <ProtectedRoute>
                   <Account />

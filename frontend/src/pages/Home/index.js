@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { use } from 'react';
 import './Home.css';
 import { Container, Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function HomePage() {
+  const navigate = useNavigate()
+  
   return (
     <>
       {/* Hero Section */}
@@ -15,8 +19,8 @@ export default function HomePage() {
           
           {/* Form for email signup */}
           <Form className="hero-form">
-            <Form.Control type="email" placeholder="Enter your email address" className="input-field"/>
-            <Button variant="primary" className="hero-button">Sign up for free</Button>
+            <Button variant="primary" className="hero-button" onClick={() => navigate('/login')} >Sign up as teacher</Button>
+            <Button variant="primary" className="hero-button" onClick={() => navigate('/code')} >You have a code</Button>
           </Form>
         </Container>
       </div>
