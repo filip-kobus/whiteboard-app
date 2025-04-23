@@ -46,6 +46,9 @@ function Board({ boardName, imageUrl, destinationUrl }) {
             <Dropdown.Item onClick={handleCopyToken}>
               Copy Token to Clipboard
             </Dropdown.Item>
+            <Dropdown.Item onClick={handleCopyToken}>
+              Delete Board
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>

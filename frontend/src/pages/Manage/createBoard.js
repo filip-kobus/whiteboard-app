@@ -23,9 +23,8 @@ export default function CreateBoard() {
     };
 
       return (
-        <div className="d-flex justify-content-center mx-auto gap-5">   
-            <div className="content-container">
-            <h4 className='mb-3'>Create a New Board</h4>
+        <div className="d-flex justify-content-center mx-auto">   
+            <div className="popup-window">
             <Form className="form">
                 <Form.Group className="mb-3">
                 <Form.Label>Board Name</Form.Label>

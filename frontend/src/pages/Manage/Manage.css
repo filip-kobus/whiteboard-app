@@ -34,3 +34,30 @@
     text-align: center;
   }
   
+  /* Style for the add board button */
+.add-board-button {
+  width: 150px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc !important;
+  background-color: transparent !important;
+}
+
+.add-board-button:hover {
+  border-color: #0d6efd !important;
+  background-color: rgba(13, 110, 253, 0.05) !important;
+}
+
+.board-wrapper {
+  display: inline-block;
+  margin-right: 20px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.board-title {
+  margin-top: 8px;
+  text-align: center;
+}
