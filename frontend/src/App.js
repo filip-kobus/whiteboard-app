@@ -47,6 +47,11 @@ function App() {
                   <Manage />
                 </ProtectedRoute>
                 } />
+              <Route path="/boards" element={
+                <ProtectedRoute>
+                  <Boards />
+                </ProtectedRoute>
+                } />
               <Route path="/contact" element={<Contact />} />
               <Route path="/code" element={<Code />} />
               <Route path="/account" element={

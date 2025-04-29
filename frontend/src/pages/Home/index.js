@@ -18,9 +18,9 @@ export default function HomePage() {
           </p>
           
           {/* Form for email signup */}
-          <Form className="hero-form gap-3">
+          <Form className="hero-form">
             <Button variant="primary" className="hero-button" onClick={() => navigate('/login')} >Sign up as teacher</Button>
-            <Button variant="primary" className="hero-button" onClick={() => navigate('/code')} >Login with code</Button>
+            <Button variant="primary" className="hero-button" onClick={() => navigate('/code')} >You have a code</Button>
           </Form>
         </Container>
       </div>

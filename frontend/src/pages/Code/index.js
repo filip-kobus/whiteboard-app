@@ -10,7 +10,7 @@ function Code() {
 
   return (
     <div className="content-section">
-        <div className="content-container mb-8">
+        <div className="content-container">
           <h2 className="text-center title mb-4">Enter board</h2>
           <Form className="form" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">

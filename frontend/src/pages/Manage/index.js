@@ -46,6 +46,7 @@ function ManagePanel() {
           >
             <PlusCircle size={48} />
           </Button>
+          <p className="board-title">Add New Board</p>
         </div>
       </div>
 
