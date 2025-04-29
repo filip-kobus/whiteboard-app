@@ -5,10 +5,24 @@ import { ThreeDotsVertical } from 'react-bootstrap-icons';
 import "./Boards.css";
 
 
-function Board({ boardName, imageUrl, destinationUrl }) {
+function Board({ imageUrl="/images/board.png", destinationUrl, boardId }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleCopyToken = () => {
+    // Replace with your actual token logic
+    const token = boardId;
+    navigator.clipboard.writeText(token);
+    alert('Token copied to clipboard!');
+  };
+
+  const handleDeleteBoard = () => {
+    // Replace with your actual token logic
+    const token = "board-token-123";
+    navigator.clipboard.writeText(token);
+    alert('Token copied to clipboard!');
+  };
+
+  const handleRegenerateToken = () => {
     // Replace with your actual token logic
     const token = "board-token-123";
     navigator.clipboard.writeText(token);
@@ -19,8 +33,9 @@ function Board({ boardName, imageUrl, destinationUrl }) {
     <Card className="board-card">
       <div className="position-relative">
         <a href={destinationUrl} className="board-link">
-          <Card.Img variant="top" src={imageUrl} alt={boardName} />
+          <Card.Img variant="top" src={imageUrl} />
         </a>
+        
         
         {/* Settings Dropdown */}
         <Dropdown 
@@ -37,16 +52,13 @@ function Board({ boardName, imageUrl, destinationUrl }) {
         </Dropdown.Toggle>
 
           <Dropdown.Menu show={showDropdown}>
-            <Dropdown.Item onClick={() => alert('Add users functionality')}>
-              Add Users
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => alert('Change token functionality')}>
-              Change Token
+            <Dropdown.Item onClick={handleRegenerateToken}>
+              Regenerate Token
             </Dropdown.Item>
             <Dropdown.Item onClick={handleCopyToken}>
               Copy Token to Clipboard
             </Dropdown.Item>
-            <Dropdown.Item onClick={handleCopyToken}>
+            <Dropdown.Item onClick={handleDeleteBoard}>
               Delete Board
             </Dropdown.Item>
           </Dropdown.Menu>

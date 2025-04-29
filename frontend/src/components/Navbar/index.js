@@ -26,7 +26,7 @@ function Navbar() {
           
           {/* Left-aligned navigation links */}
           <Nav className="me-auto gap-4">
-          <Nav.Link href="/boards">Boards</Nav.Link>
+          <Nav.Link href="/join">Join Board</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
           </Nav>
 

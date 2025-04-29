@@ -13,8 +13,6 @@ function Register() {
   const [isSigned, setIsSigned] = useState(true)
 
   async function handleRegister(e) {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    console.log(apiUrl)
     e.preventDefault();
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username: email,
@@ -25,7 +23,8 @@ function Register() {
         },
       }
     });
-
+    
+    const apiUrl = process.env.REACT_APP_API_URL;
     try {
         console.log(userId)
         await axios.post(`${apiUrl}/adduser`, {

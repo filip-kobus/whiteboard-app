@@ -4,45 +4,51 @@ import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 
 
-export default function CreateBoard() {
-    const [newBoardName, setNewBoardName] = useState('');
-    const [newBoardImage, setNewBoardImage] = useState('');
-    const [selectedBoard, setSelectedBoard] = useState(null);
-    const [userEmail, setUserEmail] = useState('');
-  
-    /** Function to add a new board */
-    const handleAddBoard = () => {
-      ;
-    };
-  
-    /** Function to assign a user to a board */
-    const handleAssignUser = () => {
-      if (!selectedBoard || !userEmail) return;
-      alert(`User ${userEmail} assigned to board ${selectedBoard}`);
-      setUserEmail('');
+export default function CreateBoard({ onCreate }) { // Accept onCreate as a prop
+  const [newBoardName, setNewBoardName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+
+  const handleAddBoard = () => {
+    if (!newBoardName) {
+      alert('Please enter a board name.');
+      return;
+    }
+
+    // Create a new board object
+    const newBoard = {
+      name: newBoardName,
+      email: userEmail || '',
     };
 
-      return (
-        <div className="d-flex justify-content-center mx-auto">   
-            <div className="popup-window">
-            <Form className="form">
-                <Form.Group className="mb-3">
-                <Form.Label>Board Name</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter board name"
-                    value={newBoardName}
-                    onChange={(e) => setNewBoardName(e.target.value)}
-                />
-                </Form.Group>
+    // Call the onCreate callback to pass the new board to the parent component
+    onCreate(newBoard);
 
-                <Form.Group className="mb-3">
-                <EmailInviteForm />
-                </Form.Group>
+    // Reset the form fields
+    setNewBoardName('');
+    setUserEmail('');
+  };
 
-                <Button className="submit-button" onClick={handleAddBoard}>Create Board</Button>
-            </Form>
-            </div>
+    return (
+      <div className="d-flex justify-content-center mx-auto">   
+        <div className="popup-window">
+          <Form className="form">
+            <Form.Group className="mb-3">
+              <Form.Label>Board Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter board name"
+                value={newBoardName}
+                onChange={(e) => setNewBoardName(e.target.value)}
+              />
+            </Form.Group>
+  
+            <Form.Group className="mb-3">
+              <EmailInviteForm />
+            </Form.Group>
+  
+            <Button className="submit-button" onClick={handleAddBoard}>Create Board</Button>
+          </Form>
         </div>
-      )
-}
+      </div>
+    );
+  }

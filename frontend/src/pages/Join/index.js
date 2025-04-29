@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-function Code() {
+function Join() {
   const [code, setCode] = useState('');
 
   async function handleSubmit(event) {
@@ -32,4 +32,4 @@ function Code() {
   );
 }
 
-export default Code;
+export default Join;
