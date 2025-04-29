@@ -7,9 +7,11 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import Button from 'react-bootstrap/Button';
 import { PlusCircle } from 'react-bootstrap-icons';
 import Modal from 'react-bootstrap/Modal';
+import { useAppContext } from '../../libs/contextLib';
 
 
-function ManagePanel({ userId }) {
+function ManagePanel() {
+  const { userId, setIsLoading } = useAppContext();
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -24,7 +26,7 @@ function ManagePanel({ userId }) {
       console.error('Error fetching boards:', error);
       setBoards([]);
     }
-  };
+    };
 
   useEffect(() => {
     fetchBoards();
@@ -32,6 +34,7 @@ function ManagePanel({ userId }) {
 
   const handleAddBoard = async (newBoard) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/addboard`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,11 +53,14 @@ function ManagePanel({ userId }) {
     } catch (error) {
       console.error('Error creating board:', error);
       alert('Failed to create board. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDeleteBoard = async (boardId) => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/removeboard`,
         {
@@ -73,11 +79,13 @@ function ManagePanel({ userId }) {
         throw new Error('Failed to delete the board');
       }
 
-      // Update the state to remove the deleted board immediately
+      // Update the state to remove the deleted board
       setBoards((prevBoards) => prevBoards.filter((board) => board.boardId !== boardId));
     } catch (error) {
       console.error('Error deleting board:', error);
       alert('Failed to delete the board. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 

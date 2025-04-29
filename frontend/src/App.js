@@ -53,32 +53,30 @@ function App() {
 
   useEffect(() => {
     getUser();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <Loading />
-    );
-  }
+  }, [isAuthenticated]);
 
   return (
     <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId, isLoading, setIsLoading }}>
       <div className="global-background">
         <Router>
           <Navbar />
-          <Routes>
-            <Route path="/" element={!isAuthenticated ? <Home /> : <Manage userId={userId} />} />
-            <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/account" element={
-              <ProtectedRoute>
-                <Account userId={userId} />
-              </ProtectedRoute>
-            } />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Routes>
+              <Route path="/" element={!isAuthenticated ? <Home /> : <Manage userId={userId} />} />
+              <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/join" element={<Join />} />
+              <Route path="/account" element={
+                <ProtectedRoute>
+                  <Account userId={userId} />
+                </ProtectedRoute>
+              } />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          )}
         </Router>
       </div>
     </AppContext.Provider>

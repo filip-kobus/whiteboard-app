@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Alert } from 'react-bootstrap';
 
 function EmailInviteForm() {
   const [emails, setEmails] = useState('');
@@ -10,8 +10,7 @@ function EmailInviteForm() {
 
     if (emails.trim()) {
       console.log('Emails to send codes to:', emails);
-      // In a real app, you would call your API here:
-      // await api.sendBoardCodes(emails.split(',').map(email => email.trim()));
+
     } else {
       console.log('No emails provided, skipping email invite.');
     }

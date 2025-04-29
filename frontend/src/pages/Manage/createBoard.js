@@ -38,7 +38,6 @@ export default function CreateBoard({ onCreate }) {
                 onChange={(e) => setNewBoardName(e.target.value)}
               />
             </Form.Group>
-  
             <Form.Group className="mb-3">
               <EmailInviteForm />
             </Form.Group>
