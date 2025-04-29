@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 
 
-export default function CreateBoard({ onCreate }) { // Accept onCreate as a prop
+export default function CreateBoard({ onCreate }) {
   const [newBoardName, setNewBoardName] = useState('');
   const [userEmail, setUserEmail] = useState('');
 
@@ -14,16 +14,13 @@ export default function CreateBoard({ onCreate }) { // Accept onCreate as a prop
       return;
     }
 
-    // Create a new board object
     const newBoard = {
       name: newBoardName,
       email: userEmail || '',
     };
 
-    // Call the onCreate callback to pass the new board to the parent component
     onCreate(newBoard);
 
-    // Reset the form fields
     setNewBoardName('');
     setUserEmail('');
   };

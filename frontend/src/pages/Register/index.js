@@ -1,109 +1,59 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { signUp } from 'aws-amplify/auth';
+import { signUp } from "aws-amplify/auth";
 import axios from "axios";
-import Confirm from "./confirm";
-
+import Confirm from "./Confirm";
+import RegisterForm from "./RegisterForm";
 
 function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [isSigned, setIsSigned] = useState(true)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [isSigned, setIsSigned] = useState(true);
 
-  async function handleRegister(e) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    const { isSignUpComplete, userId, nextStep } = await signUp({
-      username: email,
-      password: password,
-      options: {
-        userAttributes: {
-          name: name,
-        },
-      }
-    });
-    
-    const apiUrl = process.env.REACT_APP_API_URL;
-    try {
-        console.log(userId)
-        await axios.post(`${apiUrl}/adduser`, {
-            userId: userId
-        });
-        setIsSigned(false);
-    } catch (err) {
-        console.error("Failed to save user to the database:", err);
-        alert("An error occurred while saving your data. Please try again.");
-    }
-  }
 
-  if(!isSigned) return <Confirm username={email} />
+    try {
+      const { userId } = await signUp({
+        username: formData.email,
+        password: formData.password,
+        options: {
+          userAttributes: {
+            name: formData.name,
+          },
+        },
+      });
+
+      const apiUrl = process.env.REACT_APP_API_URL;
+      await axios.post(`${apiUrl}/adduser`, { userId });
+      setIsSigned(false);
+    } catch (err) {
+      console.error("Failed to save user to the database:", err);
+      alert("An error occurred while saving your data. Please try again.");
+    }
+  };
+
+  if (!isSigned) return <Confirm username={formData.email} />;
 
   return (
-    <>
-      <div className="content-section">
-          <div className="content-container">
-            <h2 className="title mb-4">Sign Up</h2>
-
-            <Form className="form" onSubmit={handleRegister}>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your username"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Repeat your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" className="w-100 submit-button">
-                Sign up
-              </Button>
-
-              <Form.Group className="mb-3 d-flex gap-3 align-items-center">
-                <span className="me-2">Already have an account?</span>
-                <a href="/login" className="text-primary text-decoration-none">
-                  Sign in
-                </a>
-              </Form.Group>
-            </Form>
-          </div>
+    <div className="content-section">
+      <div className="content-container">
+        <h2 className="title mb-4">Sign Up</h2>
+        <RegisterForm
+          formData={formData}
+          handleChange={handleChange}
+          handleRegister={handleRegister}
+        />
       </div>
-    </>
+    </div>
   );
 }
 

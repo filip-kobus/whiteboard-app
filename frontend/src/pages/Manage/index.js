@@ -8,56 +8,44 @@ import Button from 'react-bootstrap/Button';
 import { PlusCircle } from 'react-bootstrap-icons';
 import Modal from 'react-bootstrap/Modal';
 
-function ManagePanel({ userId}) {  
+
+function ManagePanel({ userId }) {
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
+  const fetchBoards = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch boards');
+
+      const data = await response.json();
+      setBoards(Array.isArray(data.boards) ? data.boards : []);
+    } catch (error) {
+      console.error('Error fetching boards:', error);
+      setBoards([]);
+    }
+  };
+
   useEffect(() => {
-    const fetchBoards = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser/${userId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch boards');
-        }
-        const data = await response.json();
-  
-        // Extract the boards array from the response
-        if (data && Array.isArray(data.boards)) {
-          setBoards(data.boards);
-        } else {
-          console.error('Unexpected API response format:', data);
-          setBoards([]); // Fallback to an empty array
-        }
-      } catch (error) {
-        console.error('Error fetching boards:', error);
-        setBoards([]); // Fallback to an empty array
-      }
-    };
-  
     fetchBoards();
   }, [userId]);
 
   const handleAddBoard = async (newBoard) => {
     try {
-      // Send the new board data to the backend API
       const response = await fetch(`${process.env.REACT_APP_API_URL}/addboard`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId, boardName: newBoard.name }), // Include userId and boardName in the request
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, boardName: newBoard.name }),
       });
   
-      if (!response.ok) {
-        throw new Error('Failed to create board');
-      }
+      if (!response.ok) throw new Error('Failed to create board');
   
       const createdBoard = await response.json();
+      setBoards((prevBoards) => [...prevBoards, createdBoard]);
   
-      // Update the boards state with the newly created board
-      setBoards([...boards, createdBoard]);
+      // Optionally re-fetch boards to ensure consistency
+      await fetchBoards();
   
-      // Close the modal
       setShowCreateModal(false);
     } catch (error) {
       console.error('Error creating board:', error);
@@ -65,23 +53,53 @@ function ManagePanel({ userId}) {
     }
   };
 
+  const handleDeleteBoard = async (boardId) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/removeboard`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userId,
+            boardId: boardId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to delete the board');
+      }
+
+      // Update the state to remove the deleted board immediately
+      setBoards((prevBoards) => prevBoards.filter((board) => board.boardId !== boardId));
+    } catch (error) {
+      console.error('Error deleting board:', error);
+      alert('Failed to delete the board. Please try again.');
+    }
+  };
+
   return (
     <Container className="admin-container mt-4">
       <h2 className="title mb-5">Manage Boards</h2>
-      
-      <div className="board-scroll">
-        {/* Existing boards */}
-        {boards.map(board => (
+
+      <div key={boards.length} className="board-scroll">
+        {boards.map((board) => (
           <div key={board.boardId} className="board-wrapper">
-            <Board destinationUrl={board.url} boardId={board.boardId} userId={userId} />
+            <Board destinationUrl={board.url}
+                   boardId={board.boardId}
+                   userId={userId}
+                   onDelete={handleDeleteBoard}
+                    />
             <p className="board-title">{board.boardName}</p>
           </div>
         ))}
-        
-        {/* Plus button for adding new board */}
+
         <div className="board-wrapper">
-          <Button 
-            variant="outline-secondary" 
+          <Button
+            variant="outline-secondary"
             className="add-board-button"
             onClick={() => setShowCreateModal(true)}
           >
@@ -91,7 +109,6 @@ function ManagePanel({ userId}) {
         </div>
       </div>
 
-      {/* Create Board Modal */}
       <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Board</Modal.Title>

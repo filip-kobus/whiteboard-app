@@ -11,22 +11,43 @@ import Account from './pages/Account';
 import Join from './pages/Join';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from "./components/ProtectedRoute";
-import { getCurrentUser } from 'aws-amplify/auth'
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth'
+import Loading from "./components/Loading";
 import './index.css';
 
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
 
   async function getUser() {
     try {
       const user = await getCurrentUser();
+      const session = await fetchAuthSession();
       const userId = user['userId'];
-      setUserId(userId);
+      const isEmailVerified = session.tokens.idToken.payload.email_verified;
+
       userHasAuthenticated(true);
+      setUserId(userId);
+      localStorage.setItem('isAuthenticated', true);
+      localStorage.setItem('userId', userId);
+
+      if (isEmailVerified) {
+        localStorage.setItem('isEmailVerified', true);
+      } else {
+        localStorage.setItem('isEmailVerified', false);
+        alert("Please verify your email to access the application.");
+      }
     } catch (err) {
+      console.error("Error checking user authentication:", err);
       userHasAuthenticated(false);
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('isEmailVerified');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -34,8 +55,14 @@ function App() {
     getUser();
   }, []);
 
+  if (isLoading) {
+    return (
+      <Loading />
+    );
+  }
+
   return (
-    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId }}>
+    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId, isLoading, setIsLoading }}>
       <div className="global-background">
         <Router>
           <Navbar />
