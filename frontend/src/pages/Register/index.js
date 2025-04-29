@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { signUp, oauth } from 'aws-amplify/auth';
+import { signUp } from 'aws-amplify/auth';
+import axios from "axios";
 import Confirm from "./confirm";
 
 
@@ -12,7 +13,9 @@ function Register() {
   const [isSigned, setIsSigned] = useState(true)
 
   async function handleRegister(e) {
-    e.preventDefault()
+    const apiUrl = process.env.REACT_APP_API_URL;
+    console.log(apiUrl)
+    e.preventDefault();
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username: email,
       password: password,
@@ -22,8 +25,18 @@ function Register() {
         },
       }
     });
-    setIsSigned(false)
-  };
+
+    try {
+        console.log(userId)
+        await axios.post(`${apiUrl}/adduser`, {
+            userId: userId
+        });
+        setIsSigned(false);
+    } catch (err) {
+        console.error("Failed to save user to the database:", err);
+        alert("An error occurred while saving your data. Please try again.");
+    }
+  }
 
   if(!isSigned) return <Confirm username={email} />
 
