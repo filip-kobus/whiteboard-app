@@ -73,7 +73,7 @@ function ManagePanel({ userId}) {
         {/* Existing boards */}
         {boards.map(board => (
           <div key={board.boardId} className="board-wrapper">
-            <Board destinationUrl={board.url} boardId={board.boardId} />
+            <Board destinationUrl={board.url} boardId={board.boardId} userId={userId} />
             <p className="board-title">{board.boardName}</p>
           </div>
         ))}

@@ -5,7 +5,7 @@ import { ThreeDotsVertical } from 'react-bootstrap-icons';
 import "./Boards.css";
 
 
-function Board({ imageUrl="/images/board.png", destinationUrl, boardId }) {
+function Board({ imageUrl="/images/board.png", destinationUrl, boardId, userId }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleCopyToken = () => {
@@ -15,11 +15,32 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId }) {
     alert('Token copied to clipboard!');
   };
 
-  const handleDeleteBoard = () => {
-    // Replace with your actual token logic
-    const token = "board-token-123";
-    navigator.clipboard.writeText(token);
-    alert('Token copied to clipboard!');
+  const handleDeleteBoard = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/removeboard`,
+        {
+          method: 'DELETE',
+          headers: {
+        'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userId,
+            boardId: boardId,
+          }),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete the board');
+      }
+  
+      alert('Board deleted successfully!');
+      // Optionally, trigger a parent function to refresh the board list
+    } catch (error) {
+      console.error('Error deleting board:', error);
+      alert('Failed to delete the board. Please try again.');
+    }
   };
 
   const handleRegenerateToken = () => {
