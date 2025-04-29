@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { signUp, oauth } from 'aws-amplify/auth';
+import handleRegister from "./hooks";
 import Confirm from "./confirm";
 
 
@@ -10,20 +10,6 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isSigned, setIsSigned] = useState(true)
-
-  async function handleRegister(e) {
-    e.preventDefault()
-    const { isSignUpComplete, userId, nextStep } = await signUp({
-      username: email,
-      password: password,
-      options: {
-        userAttributes: {
-          name: name,
-        },
-      }
-    });
-    setIsSigned(false)
-  };
 
   if(!isSigned) return <Confirm username={email} />
 
