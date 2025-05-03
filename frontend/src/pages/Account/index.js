@@ -8,8 +8,6 @@ import { signOut, fetchUserAttributes } from 'aws-amplify/auth';
 function Account() {
   const { isAuthenticated, userHasAuthenticated } = useAppContext();
   const [userAttributes, setUserAttributes] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,10 +20,8 @@ function Account() {
       const attributes = await fetchUserAttributes();
       setUserAttributes(attributes);
     } catch (err) {
-      setError('Failed to fetch user data');
+      alert('Failed to fetch user data');
       console.error('Error fetching attributes:', err);
-    } finally {
-      setLoading(false);
     }
   }
 

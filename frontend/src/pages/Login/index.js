@@ -1,33 +1,40 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { signIn } from 'aws-amplify/auth';
+import { signIn, fetchUserAttributes } from 'aws-amplify/auth';
 import { useAppContext } from "../../libs/contextLib";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
-  // State definitions for the form fields and error message
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
-  const { userHasAuthenticated } = useAppContext();
+  const { userHasAuthenticated, setVerified } = useAppContext();
+  
 
   async function handleSubmit(event) {
     event.preventDefault();
     setAlert({ show: false, variant: '', message: '' });
 
     try {
-      await signIn({
+      const singInStatus = await signIn({
         username: email,
         password: password,
       });
-      setAlert({
-        show: true,
-        variant: 'success',
-        message: 'Login successful! Redirecting...'
-      });
-      userHasAuthenticated(true);
+      console.log(singInStatus)
+      if(!singInStatus.isSignedIn) {
+        setVerified(false);
+      }
+      else {
+        setAlert({
+          show: true,
+          variant: 'success',
+          message: 'Login successful! Redirecting...'
+        });
+        userHasAuthenticated(true);
+      }
     } catch (error) {
+      console.log('Login error:', error);
       setAlert({
         show: true,
         variant: 'danger',

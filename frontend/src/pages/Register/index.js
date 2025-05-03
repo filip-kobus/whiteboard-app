@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { signUp } from "aws-amplify/auth";
 import axios from "axios";
-import Confirm from "./Confirm";
+import Confirm from "../../components/ConfirmEmail";
 import RegisterForm from "./RegisterForm";
+import { useAppContext } from "../../libs/contextLib";
+
 
 function Register() {
-  const [formData, setFormData] = useState({
+  const { isVerified, setVerified, setUserId } = useAppContext();
+  
+  const [formData, setFormData ] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [isSigned, setIsSigned] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +25,7 @@ function Register() {
     e.preventDefault();
 
     try {
-      const { userId } = await signUp({
+      const signupResult = await signUp({
         username: formData.email,
         password: formData.password,
         options: {
@@ -32,16 +35,17 @@ function Register() {
         },
       });
 
+      const userId = signupResult.userId;
       const apiUrl = process.env.REACT_APP_API_URL;
       await axios.post(`${apiUrl}/adduser`, { userId });
-      setIsSigned(false);
+      setUserId(userId)
+      setVerified(signupResult.isSignUpComplete);
+      
     } catch (err) {
       console.error("Failed to save user to the database:", err);
       alert("An error occurred while saving your data. Please try again.");
     }
   };
-
-  if (!isSigned) return <Confirm username={formData.email} />;
 
   return (
     <div className="content-section">
