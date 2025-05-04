@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { signIn } from 'aws-amplify/auth';
+import { signIn, getCurrentUser } from 'aws-amplify/auth';
 import { useAppContext } from "../../libs/contextLib";
 import LoginForm from "./LoginForm";
 import AlertMessage from "./AlertMessage";
@@ -10,7 +10,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
   const [showConfirm, setShowConfirm] = useState(false);
-  const { userHasAuthenticated } = useAppContext();
+  const { userHasAuthenticated, setUserId } = useAppContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,12 +31,14 @@ function Login() {
 
   const resetAlert = () => setAlert({ show: false, variant: '', message: '' });
 
-  const handleSuccessfulLogin = () => {
+  const handleSuccessfulLogin = async () => {
     setAlert({
       show: true,
       variant: 'success',
       message: 'Login successful! Redirecting...',
     });
+    const user = await getCurrentUser();
+    setUserId(user['userId']);
     userHasAuthenticated(true);
   };
 

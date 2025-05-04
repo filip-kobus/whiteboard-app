@@ -1,0 +1,49 @@
+.alert {
+    position: fixed; /* Ensure the alert is fixed and doesn't affect layout */
+    bottom: 10px; /* Position it at the bottom */
+    right: 10px; /* Align it to the right */
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    z-index: 1000; /* Ensure it appears above other elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+}
+
+.alert-info {
+    background-color: #2196f3;
+}
+
+.alert-success {
+    background-color: #4caf50;
+}
+
+.alert-warning {
+    background-color: #ff9800;
+}
+
+.alert-danger {
+    background-color: #f44336;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Slide in from the bottom */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px); /* Slide out to the bottom */
+    }
+}
