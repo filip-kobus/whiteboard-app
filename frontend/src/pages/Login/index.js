@@ -5,20 +5,18 @@ import LoginForm from "./LoginForm";
 import AlertMessage from "./AlertMessage";
 import Confirm from "../../components/ConfirmEmail";
 
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
   const [showConfirm, setShowConfirm] = useState(false);
-  const { userHasAuthenticated, setIsLoading } = useAppContext();
+  const { userHasAuthenticated } = useAppContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     resetAlert();
 
     try {
-      setIsLoading(true);
       const signInStatus = await signIn({ username: email, password });
 
       if (!signInStatus.isSignedIn) {
@@ -28,8 +26,6 @@ function Login() {
       }
     } catch (error) {
       handleLoginError(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
