@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 
-export default function ConfirmForm({ code, setCode, onSubmit, onResend }) {
+export default function ConfirmForm({ code, setCode, onSubmit, onResent }) {
   return (
     <Form className="form" onSubmit={onSubmit}>
       <Form.Group className="mb-3">
@@ -21,7 +21,7 @@ export default function ConfirmForm({ code, setCode, onSubmit, onResend }) {
         variant="link"
         type="button"
         className="w-100 mt-2 resend-button"
-        onClick={onResend}
+        onClick={onResent}
       >
         Resend Code
       </Button>
