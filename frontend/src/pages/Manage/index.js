@@ -17,7 +17,7 @@ function ManagePanel() {
 
   const fetchBoards = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser/${userId}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser?userId=${userId}`);
       if (!response.ok) throw new Error('Failed to fetch boards');
 
       const data = await response.json();

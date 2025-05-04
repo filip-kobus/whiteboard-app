@@ -11,30 +11,24 @@ import Account from './pages/Account';
 import Join from './pages/Join';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from "./components/ProtectedRoute";
-import { getCurrentUser } from 'aws-amplify/auth'
-import * as Auth from 'aws-amplify/auth'
+import { getCurrentUser } from 'aws-amplify/auth';
 import Loading from "./components/Loading";
-import Confirm from "./components/ConfirmEmail";
 import './index.css';
-
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [isVerified, setVerified] = useState(true);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
   async function getUser() {
     try {
-      console.log(Auth)
       const user = await getCurrentUser();
       const userId = user['userId'];
       userHasAuthenticated(true);
       setUserId(userId);
     } catch (err) {
       userHasAuthenticated(false);
-      setVerified(true);
+      setUserId(null);
     } finally {
       setIsLoading(false);
     }
@@ -42,33 +36,16 @@ function App() {
 
   useEffect(() => {
     getUser();
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isVerified) {
-      setIsLoading(false);
-    } else {
-      setIsLoading(true);
-      getUser();
-    }
-  }, [isVerified]);
+  }, [userHasAuthenticated]);
 
   return (
-    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId, setUserId, isLoading, setIsLoading, isVerified, setVerified }}>
+    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId, setUserId, isLoading, setIsLoading }}>
       <div className="global-background">
         <Router>
           <Navbar />
           {isLoading ? (
             <Loading />
           ) : (
-            !isVerified && (
-              <Confirm userId={userId} onVerified={() => {
-                setVerified(true);
-                setIsLoading(false);
-              }} />
-            )
-          )}
-          {!isLoading && isVerified && (
             <Routes>
               <Route path="/" element={!isAuthenticated ? <Home /> : <Manage userId={userId} />} />
               <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />

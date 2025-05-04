@@ -3,51 +3,66 @@ import { signUp } from "aws-amplify/auth";
 import axios from "axios";
 import Confirm from "../../components/ConfirmEmail";
 import RegisterForm from "./RegisterForm";
-import { useAppContext } from "../../libs/contextLib";
-
+import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const { isVerified, setVerified, setUserId } = useAppContext();
-  
-  const [formData, setFormData ] = useState({
+  const Navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+
+  const resetFormData = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
+
+  const handleChange = ({ target: { name, value } }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleFinish = () => {
+    setIsConfirmVisible(false);
+    resetFormData();
+    Navigate("/login");
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
+      const { email, password, name } = formData;
       const signupResult = await signUp({
-        username: formData.email,
-        password: formData.password,
+        username: email,
+        password,
         options: {
-          userAttributes: {
-            name: formData.name,
-          },
+          userAttributes: { name },
         },
       });
 
-      const userId = signupResult.userId;
+      const { userId } = signupResult;
       const apiUrl = process.env.REACT_APP_API_URL;
-      await axios.post(`${apiUrl}/adduser`, { userId });
-      setUserId(userId)
-      setVerified(signupResult.isSignUpComplete);
-      
+      await axios.post(`${apiUrl}/adduser`, { userId:userId });
+      setIsConfirmVisible(true);
+
     } catch (err) {
       console.error("Failed to save user to the database:", err);
       alert("An error occurred while saving your data. Please try again.");
     }
   };
 
-  return (
+  return isConfirmVisible ? (
+    <Confirm email={formData.email} resendCode={false} onFinish={handleFinish} />
+  ) : (
     <div className="content-section">
       <div className="content-container">
         <h2 className="title mb-4">Sign Up</h2>

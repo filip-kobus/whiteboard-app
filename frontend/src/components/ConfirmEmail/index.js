@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ConfirmForm from "./ConfirmForm";
-import { useAppContext } from "../../libs/contextLib";
+import CloseButton from "./CloseButton";
 
-export default function Confirm({ resendCode = true}) {
+export default function Confirm({ email, resendCode = true, onFinish }) {
   const [code, setCode] = useState("");
-  const [isSigned, setIsSigned] = useState(false);
-  const navigate = useNavigate();
-  const { isVerified, setVerified, userId } = useAppContext();
 
-  async function completeSignup(e) {
+  const completeSignup = async (e) => {
     e.preventDefault();
     try {
       const { isSignUpComplete } = await confirmSignUp({
-        username: userId,
+        username: email,
         confirmationCode: code,
       });
+
       if (isSignUpComplete) {
-        setVerified(true);
-        navigate("/login");
+        onFinish();
+        alert("User confirmed, please login again.");
       } else {
         alert("Failed to confirm sign-up. Please try again.");
       }
@@ -27,51 +25,37 @@ export default function Confirm({ resendCode = true}) {
       console.error("Error confirming sign-up:", error);
       alert("Failed to confirm sign-up. Please try again.");
     }
-  }
+  };
 
-  async function handleResend() {
+  const handleResend = React.useCallback(async () => {
     try {
-      const res = await resendSignUpCode(userId);
+      await resendSignUpCode({ username: email });
       alert("Confirmation code resent successfully.");
     } catch (error) {
       console.error("Error resending confirmation code:", error);
       alert("Failed to resend confirmation code. Please try again.");
     }
-  }
+  }, [email]);
 
-  function handleCancel() {
-    setIsSigned(true);
-    navigate("/");
-  }
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (resendCode) {
       handleResend();
     }
-  }, [resendCode]);
+  }, [resendCode, handleResend]);
 
   return (
     <div className="content-section">
       <div className="content-container position-relative">
-        <button
-          className="btn btn-secondary position-absolute top-0 end-0 m-3"
-          onClick={handleCancel}
-          style={{ background: "none", border: "none", fontSize: "1.5rem", color: "black" }}
-        >
-          &times;
-        </button>
-        {!isSigned && (
-          <>
-            <h2 className="text-center title mb-4">Confirm account</h2>
-            <ConfirmForm
-              code={code}
-              setCode={setCode}
-              onSubmit={completeSignup}
-              onResent={handleResend}
-            />
-          </>
-        )}
+        <CloseButton onClick={onFinish} />
+        <h2 className="text-center title mb-4">Confirm account</h2>
+        <ConfirmForm
+          code={code}
+          setCode={setCode}
+          onSubmit={completeSignup}
+          onResent={handleResend}
+        />
       </div>
     </div>
   );
 }
+

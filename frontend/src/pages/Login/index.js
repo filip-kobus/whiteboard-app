@@ -1,114 +1,89 @@
 import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import { signIn, fetchUserAttributes } from 'aws-amplify/auth';
+import { signIn } from 'aws-amplify/auth';
 import { useAppContext } from "../../libs/contextLib";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import LoginForm from "./LoginForm";
+import AlertMessage from "./AlertMessage";
+import Confirm from "../../components/ConfirmEmail";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
-  const { userHasAuthenticated, setVerified } = useAppContext();
-  
+  const [showConfirm, setShowConfirm] = useState(false);
+  const { userHasAuthenticated } = useAppContext();
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setAlert({ show: false, variant: '', message: '' });
+    resetAlert();
 
     try {
-      const singInStatus = await signIn({
-        username: email,
-        password: password,
-      });
-      console.log(singInStatus)
-      if(!singInStatus.isSignedIn) {
-        setVerified(false);
-      }
-      else {
-        setAlert({
-          show: true,
-          variant: 'success',
-          message: 'Login successful! Redirecting...'
-        });
-        userHasAuthenticated(true);
+      const signInStatus = await signIn({ username: email, password });
+
+      if (!signInStatus.isSignedIn) {
+        setShowConfirm(true);
+      } else {
+        handleSuccessfulLogin();
       }
     } catch (error) {
-      console.log('Login error:', error);
-      setAlert({
-        show: true,
-        variant: 'danger',
-        message: error.message || 'Login failed. Please try again.'
-      });
+      handleLoginError(error);
     }
+  };
+
+  const resetAlert = () => setAlert({ show: false, variant: '', message: '' });
+
+  const handleSuccessfulLogin = () => {
+    setAlert({
+      show: true,
+      variant: 'success',
+      message: 'Login successful! Redirecting...',
+    });
+    userHasAuthenticated(true);
+  };
+
+  const handleLoginError = (error) => {
+    console.error('Login error:', error);
+    setAlert({
+      show: true,
+      variant: 'danger',
+      message: error.message || 'Login failed. Please try again.',
+    });
+  };
+
+  const handleFinish = () => {
+    setShowConfirm(false);
+    resetAlert();
   }
 
-  return (
-    <div className="content-section">
+  const renderAlertMessage = () =>
+    alert.show && (
+      <AlertMessage
+        show={alert.show}
+        variant={alert.variant}
+        message={alert.message}
+        onClose={resetAlert}
+      />
+    );
+
+  const renderContent = () =>
+    showConfirm ? (
+      <Confirm email={email} onClose={() => setShowConfirm(false)} onFinish={handleFinish} />
+    ) : (
+      <div className="content-section">
         <div className="content-container">
           <h2 className="text-center title mb-4">Sign in</h2>
-
-          {alert.show && (
-          <Alert 
-            variant={alert.variant} 
-            className="custom-alert"
-            dismissible
-            onClose={() => setAlert({ ...alert, show: false })}
-          >
-            <div className="d-flex align-items-center">
-              <FontAwesomeIcon 
-                icon={alert.variant === 'success' ? faCheckCircle : faExclamationCircle} 
-                className="me-2" 
-              />
-              <span>{alert.message}</span>
-            </div>
-          </Alert>
-        )}
-
-          <Form className="form" onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="username"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3 d-flex justify-content-between align-items-center">
-              <Form.Check type="checkbox" label="Remember me" />
-              <a href="/forgot-password" className="text-primary text-decoration-none">
-                Forgot your password?
-              </a>
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="w-100 submit-button">
-              Continue with email
-            </Button>
-
-            <Form.Group className="mb-3 d-flex gap-3 align-items-center mt-2">
-              <span className="me-1">Don't have account?</span>
-              <a href="/register" className="text-primary text-decoration-none">
-                Sign up
-              </a>
-            </Form.Group>
-          </Form>
+          {renderAlertMessage()}
+          <LoginForm
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+          />
         </div>
-    </div>
-  );
+      </div>
+    );
+
+  return <>{renderContent()}</>;
 }
 
 export default Login;
