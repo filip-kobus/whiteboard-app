@@ -10,13 +10,14 @@ function Login() {
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({ show: false, variant: '', message: '' });
   const [showConfirm, setShowConfirm] = useState(false);
-  const { userHasAuthenticated, setUserId } = useAppContext();
+  const { userHasAuthenticated, setUserId, setIsLoading } = useAppContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     resetAlert();
 
     try {
+      setIsLoading(true);
       const signInStatus = await signIn({ username: email, password });
 
       if (!signInStatus.isSignedIn) {
@@ -26,6 +27,8 @@ function Login() {
       }
     } catch (error) {
       handleLoginError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

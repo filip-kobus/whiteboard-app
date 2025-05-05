@@ -4,9 +4,13 @@ import axios from "axios";
 import Confirm from "../../components/ConfirmEmail";
 import RegisterForm from "./RegisterForm";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../libs/contextLib";
+
 
 function Register() {
   const Navigate = useNavigate();
+    const { setIsLoading } = useAppContext();
+  
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,6 +42,7 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const { email, password, name } = formData;
@@ -57,6 +62,8 @@ function Register() {
     } catch (err) {
       console.error("Failed to save user to the database:", err);
       alert("An error occurred while saving your data. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
