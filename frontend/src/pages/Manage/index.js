@@ -15,7 +15,7 @@ function ManagePanel() {
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const fetchBoards = async () => {
+  const fetchBoards = React.useCallback(async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser?userId=${userId}`);
       if (!response.ok) throw new Error('Failed to fetch boards');
@@ -26,11 +26,11 @@ function ManagePanel() {
       console.error('Error fetching boards:', error);
       setBoards([]);
     }
-    };
+  }, [userId]);
 
   useEffect(() => {
     fetchBoards();
-  }, [userId]);
+  }, [fetchBoards]);
 
   const handleAddBoard = async (newBoard) => {
     try {
@@ -60,7 +60,6 @@ function ManagePanel() {
 
   const handleDeleteBoard = async (boardId) => {
     try {
-      setIsLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/removeboard`,
         {
@@ -84,18 +83,16 @@ function ManagePanel() {
     } catch (error) {
       console.error('Error deleting board:', error);
       alert('Failed to delete the board. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }; 
 
   return (
     <Container className="admin-container mt-4">
       <h2 className="title mb-5">Manage Boards</h2>
 
       <div key={boards.length} className="board-scroll">
-        {boards.map((board) => (
-          <div key={board.boardId} className="board-wrapper">
+        {boards.map((board, index) => (
+          <div key={`${board.boardId}-${index}`} className="board-wrapper">
             <Board destinationUrl={board.url}
                    boardId={board.boardId}
                    userId={userId}

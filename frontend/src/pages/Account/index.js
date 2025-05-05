@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle, faInfoCircle, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useAppContext } from "../../libs/contextLib";
 import { signOut, fetchUserAttributes } from 'aws-amplify/auth';
 
 function Account() {
-  const { isAuthenticated, userHasAuthenticated } = useAppContext();
+  const { isAuthenticated, userHasAuthenticated, setIsLoading } = useAppContext();
   const [userAttributes, setUserAttributes] = useState(null);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchUserData();
-    }
-  }, [isAuthenticated]);
-
-  async function fetchUserData() {
+  const fetchUserData = React.useCallback(async () => {
+    setIsLoading(true);
     try {
       const attributes = await fetchUserAttributes();
       setUserAttributes(attributes);
     } catch (err) {
       alert('Failed to fetch user data');
       console.error('Error fetching attributes:', err);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  }, [setIsLoading]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchUserData();
+    }
+  }, [isAuthenticated, fetchUserData]);
 
   async function logout() {
     try {
