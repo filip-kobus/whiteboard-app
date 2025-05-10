@@ -12,7 +12,7 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId, userId, 
     // Replace with your actual token logic
     const token = boardId;
     navigator.clipboard.writeText(token);
-    // Custom styled alert
+
     const alertBox = document.createElement('div');
     alertBox.textContent = 'Token copied to clipboard!';
     alertBox.style.position = 'fixed';

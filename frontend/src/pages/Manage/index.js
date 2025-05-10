@@ -8,15 +8,18 @@ import Button from 'react-bootstrap/Button';
 import { PlusCircle } from 'react-bootstrap-icons';
 import Modal from 'react-bootstrap/Modal';
 import { useAppContext } from '../../libs/contextLib';
+import Loading from '../../components/Loading';
 
 
 function ManagePanel() {
-  const { userId, setIsLoading } = useAppContext();
+  const { userId } = useAppContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const fetchBoards = React.useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/getuser?userId=${userId}`);
       if (!response.ok) throw new Error('Failed to fetch boards');
 
@@ -25,8 +28,10 @@ function ManagePanel() {
     } catch (error) {
       console.error('Error fetching boards:', error);
       setBoards([]);
+    } finally {
+      setIsLoading(false);
     }
-  }, [userId]);
+  }, [userId, setIsLoading]);
 
   useEffect(() => {
     fetchBoards();
@@ -60,6 +65,7 @@ function ManagePanel() {
 
   const handleDeleteBoard = async (boardId) => {
     try {
+      setIsLoading(true); // Set loading to true
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/removeboard`,
         {
@@ -83,8 +89,15 @@ function ManagePanel() {
     } catch (error) {
       console.error('Error deleting board:', error);
       alert('Failed to delete the board. Please try again.');
+    } finally {
+      setIsLoading(false); // Set loading to false
     }
-  }; 
+  };
+
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Container className="admin-container mt-4">
@@ -92,12 +105,16 @@ function ManagePanel() {
 
       <div key={boards.length} className="board-scroll">
         {boards.map((board, index) => (
-          <div key={`${board.boardId}-${index}`} className="board-wrapper">
-            <Board destinationUrl={board.url}
-                   boardId={board.boardId}
-                   userId={userId}
-                   onDelete={handleDeleteBoard}
-                    />
+          <div
+            key={`${board.boardId}-${index}`}
+            className="board-wrapper"
+          >
+            <Board
+              destinationUrl={`/board/${board.boardId}`}
+              boardId={board.boardId}
+              userId={userId}
+              onDelete={handleDeleteBoard}
+            />
             <p className="board-title">{board.boardName}</p>
           </div>
         ))}
