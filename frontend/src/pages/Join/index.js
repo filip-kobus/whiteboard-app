@@ -5,7 +5,8 @@ function Join() {
   const [code, setCode] = useState('');
 
   async function handleSubmit(event) {
-    ;
+    event.preventDefault();
+    window.location.href = `/board/${code}`;
   }
 
   return (
@@ -23,7 +24,11 @@ function Join() {
                 required
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="w-100 submit-button">
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-100 submit-button"
+            >
               Submit
             </Button>
           </Form>
