@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap');
+@import url('tldraw/tldraw.css');
+
 /* content Page Background */
 .global-background {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
