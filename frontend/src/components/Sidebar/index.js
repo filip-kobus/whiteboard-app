@@ -41,7 +41,7 @@ const Sidebar = () => {
           {/* Clickable Option Item */}
           <div className="sidebar_item" onClick={() => { navigate("/board"); setSidebarOpen(false); }}>
             <i className="fas fa-user"></i>
-            <p>Boards</p>
+            <p>Join Board</p>
           </div>
         </div>
       )}
