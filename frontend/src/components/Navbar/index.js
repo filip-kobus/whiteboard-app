@@ -26,8 +26,17 @@ function Navbar() {
           
           {/* Left-aligned navigation links */}
           <Nav className="me-auto gap-4">
-          <Nav.Link href="/board">Join Board</Nav.Link>
-          <Nav.Link href="/about">About</Nav.Link>
+
+          {isAuthenticated ? (
+            <>
+              <Nav.Link href="/about">About</Nav.Link>
+            </>
+          ) : (
+            <>
+              <Nav.Link href="/board">Join Board</Nav.Link>
+              <Nav.Link href="/about">About</Nav.Link>
+            </>
+          )}
           </Nav>
 
           {/* Right-aligned Login/Register OR Logout */}
