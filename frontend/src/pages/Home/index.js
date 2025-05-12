@@ -20,7 +20,7 @@ export default function HomePage() {
           {/* Form for email signup */}
           <Form className="hero-form">
             <Button variant="primary" className="hero-button" onClick={() => navigate('/login')} >Sign up as teacher</Button>
-            <Button variant="primary" className="hero-button" onClick={() => navigate('/join')} >You have a code</Button>
+            <Button variant="primary" className="hero-button" onClick={() => navigate('/board')} >You have a code</Button>
           </Form>
         </Container>
       </div>

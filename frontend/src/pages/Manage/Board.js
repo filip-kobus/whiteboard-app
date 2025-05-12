@@ -1,20 +1,51 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ThreeDotsVertical } from 'react-bootstrap-icons';
 import "./Boards.css";
 
 
-function Board({ imageUrl="/images/board.png", destinationUrl, boardId, userId, onDelete }) {
+function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleCopyToken = () => {
-    // Replace with your actual token logic
     const token = boardId;
-    navigator.clipboard.writeText(token);
 
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(token)
+        .then(() => {
+          showAlert('Token copied to clipboard!');
+        })
+        .catch((err) => {
+          console.error('Failed to copy token:', err);
+          fallbackCopyTextToClipboard(token);
+        });
+    } else {
+      console.warn('Clipboard API not supported, using fallback.');
+      fallbackCopyTextToClipboard(token);
+    }
+  };
+
+  const fallbackCopyTextToClipboard = (text) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed'; // Avoid scrolling to the bottom
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showAlert('Token copied to clipboard!');
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(textArea);
+  };
+  
+  const showAlert = (message) => {
     const alertBox = document.createElement('div');
-    alertBox.textContent = 'Token copied to clipboard!';
+    alertBox.textContent = message;
     alertBox.style.position = 'fixed';
     alertBox.style.bottom = '20px';
     alertBox.style.right = '20px';
@@ -29,7 +60,6 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId, userId, 
       document.body.removeChild(alertBox);
     }, 3000);
   };
-  
 
   const handleRegenerateToken = () => {
     // Replace with your actual token logic
