@@ -13,7 +13,7 @@ export default function ManageToken() {
         // Fetch tokens for the board
         const fetchTokens = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/tokens?boardId=${boardId}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/gettokens?boardId=${boardId}`);
                 if (!response.ok) throw new Error('Failed to fetch tokens');
                 const data = await response.json();
                 setTokens(data.tokens || []);
@@ -25,7 +25,7 @@ export default function ManageToken() {
         fetchTokens();
     }, [boardId]);
 
-    const handleGenerateToken = async (e) => {
+    const handleAddToken = async (e) => {
         e.preventDefault();
         if (!username.trim()) {
             alert('Please enter a valid username.');
@@ -36,14 +36,20 @@ export default function ManageToken() {
 
         try {
             // Send the new token to the backend
-            await fetch(`${process.env.REACT_APP_API_URL}/addtoken`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/addtoken`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ boardId, ...newToken }),
+                body: JSON.stringify({ boardId, username: username.trim() }),
             });
+            const result = await response.json();
+            console.log('Response from addtoken:', result);
 
-            setTokens((prevTokens) => [...prevTokens, newToken]);
-            setUsername('');
+            if (response.ok) {
+                setTokens((prevTokens) => [...prevTokens, result.token]);
+                setUsername('');
+            } else {
+                alert(result.message || 'Failed to add token.');
+            }
         } catch (error) {
             console.error('Error adding token:', error);
         }
@@ -61,7 +67,7 @@ export default function ManageToken() {
         try {
             // Delete the token from the backend
             await fetch(`${process.env.REACT_APP_API_URL}/removetoken`, {
-                method: 'DELETE',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ boardId, token: tokenToDelete }),
             });
@@ -78,7 +84,7 @@ export default function ManageToken() {
                 <AddTokenForm
                     username={username}
                     setUsername={setUsername}
-                    handleGenerateToken={handleGenerateToken}
+                    handleGenerateToken={handleAddToken}
                 />
             </div>
             <div>

@@ -1,17 +1,16 @@
-import React from 'react';
 import { Clipboard, Trash } from 'react-bootstrap-icons';
 
 export default function TokenList({ tokens, handleCopyToken, handleDeleteToken }) {
     return (
         <div className="token-container p-4" style={{ flex: 2 }}>
-            <div className="row">
+            <div className={`row ${tokens.length < 2 ? 'justify-content-center' : ''}`}>
                 {tokens.map(({ token, username }, index) => (
                     <div
                         key={index}
-                        className="col-md-6 mb-3 d-flex justify-content-between align-items-center"
+                        className="col-md-6 mb-3 d-flex justify-content-between align-items-center gap-2"
                     >
                         <span>{username}</span>
-                        <div>
+                        <div className="d-flex align-items-center">
                             <Clipboard
                                 size={20}
                                 className="me-3 icon-hover"
