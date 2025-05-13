@@ -10,7 +10,7 @@ import About from './pages/About';
 import Account from './pages/Account';
 import Tokens from './pages/Tokens';
 import Join from './pages/Join';
-import Board from './components/Board';
+import Board from './pages/Board';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from "./components/ProtectedRoute";
 import { getCurrentUser } from 'aws-amplify/auth';

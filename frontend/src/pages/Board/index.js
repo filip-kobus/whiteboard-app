@@ -5,7 +5,7 @@ import { multiplayerAssetStore } from './multiplayerAssetStore';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { LoadingScreen } from 'tldraw';
-import Sidebar from "../Sidebar"
+import Sidebar from './Sidebar';
 
 const WORKER_URL = process.env.REACT_APP_TLDRAW_WORKER_URL;
 
