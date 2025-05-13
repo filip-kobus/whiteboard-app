@@ -1,11 +1,11 @@
-import EmailInviteForm from './emailInvite';
+import DescriptionForm from './DescriptionForm';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 
 export default function CreateBoard({ onCreate }) {
   const [newBoardName, setNewBoardName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleAddBoard = (e) => {
     e.preventDefault(); // Prevent form submission
@@ -17,13 +17,13 @@ export default function CreateBoard({ onCreate }) {
 
     const newBoard = {
       name: newBoardName,
-      email: userEmail || '',
+      description: description || '',
     };
 
     onCreate(newBoard);
 
     setNewBoardName('');
-    setUserEmail('');
+    setDescription('');
   };
 
   return (
@@ -39,7 +39,7 @@ export default function CreateBoard({ onCreate }) {
               onChange={(e) => setNewBoardName(e.target.value)}
             />
           </Form.Group>
-          <EmailInviteForm emails={userEmail} setEmails={setUserEmail} />
+          <DescriptionForm desription={description} setDescription={setDescription} />
           <Button className="submit-button" type="submit">
             Create Board
           </Button>

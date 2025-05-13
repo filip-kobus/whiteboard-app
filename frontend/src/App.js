@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Manage from './pages/Manage';
 import About from './pages/About';
 import Account from './pages/Account';
+import Tokens from './pages/Tokens';
 import Join from './pages/Join';
 import Board from './components/Board';
 import NotFound from './pages/NotFound';
@@ -55,6 +56,11 @@ function App() {
              <Route path="/account" element={
                <ProtectedRoute>
                  <Account userId={userId} />
+               </ProtectedRoute>
+             } />
+             <Route path="/manage/:boardId" element={
+               <ProtectedRoute>
+                 <Tokens />
                </ProtectedRoute>
              } />
              <Route path="*" element={<NotFound />} />

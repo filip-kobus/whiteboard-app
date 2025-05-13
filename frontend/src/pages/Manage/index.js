@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './Manage.css';
-import CreateBoard from './createBoard';
+import CreateBoard from './CreateBoardForm';
 import Container from 'react-bootstrap/Container';
 import Board from './Board';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import Button from 'react-bootstrap/Button';
 import { PlusCircle } from 'react-bootstrap-icons';
-import Modal from 'react-bootstrap/Modal';
 import { useAppContext } from '../../libs/contextLib';
 import Loading from '../../components/Loading';
-
+import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router-dom';
 
 function ManagePanel() {
   const { userId } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const navigate = useNavigate();
 
   const fetchBoards = React.useCallback(async () => {
     try {
@@ -51,9 +52,7 @@ function ManagePanel() {
       const createdBoard = await response.json();
       setBoards((prevBoards) => [...prevBoards, createdBoard]);
   
-      // Optionally re-fetch boards to ensure consistency
       await fetchBoards();
-  
       setShowCreateModal(false);
     } catch (error) {
       console.error('Error creating board:', error);
@@ -65,7 +64,7 @@ function ManagePanel() {
 
   const handleDeleteBoard = async (boardId) => {
     try {
-      setIsLoading(true); // Set loading to true
+      setIsLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/removeboard`,
         {
@@ -84,16 +83,18 @@ function ManagePanel() {
         throw new Error('Failed to delete the board');
       }
 
-      // Update the state to remove the deleted board
       setBoards((prevBoards) => prevBoards.filter((board) => board.boardId !== boardId));
     } catch (error) {
       console.error('Error deleting board:', error);
       alert('Failed to delete the board. Please try again.');
     } finally {
-      setIsLoading(false); // Set loading to false
+      setIsLoading(false);
     }
   };
 
+  const handleNavigateToManageTokens = (boardId) => {
+    navigate(`/manage/${boardId}`);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -114,6 +115,7 @@ function ManagePanel() {
               boardId={board.boardId}
               userId={userId}
               onDelete={handleDeleteBoard}
+              onManage={() => handleNavigateToManageTokens(board.boardId)}
             />
             <p className="board-title">{board.boardName}</p>
           </div>
@@ -130,7 +132,6 @@ function ManagePanel() {
           <p className="board-title">Add New Board</p>
         </div>
       </div>
-
       <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Board</Modal.Title>

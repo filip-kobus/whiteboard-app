@@ -85,7 +85,6 @@ display: inline-block;
   font-weight: 800;
   letter-spacing: 0.5px;
   border-radius: 8px;
-  margin-top: 1rem;
   transition: all 0.3s ease;
   text-transform: uppercase;
 }
