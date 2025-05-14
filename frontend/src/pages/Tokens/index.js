@@ -15,8 +15,8 @@ export default function ManageToken() {
         // Fetch tokens for the board
         const fetchTokens = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/gettokens?boardId=${boardId}`);
                 setIsLoading(true);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/gettokens?boardId=${boardId}`);
                 if (!response.ok) throw new Error('Failed to fetch tokens');
                 const data = await response.json();
                 setTokens(data.tokens || []);
