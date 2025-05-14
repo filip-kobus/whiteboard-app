@@ -1,6 +1,6 @@
 import { AssetRecordType, getHashForString } from 'tldraw';
 
-// How does our server handle bookmark unfurling?
+
 export async function getBookmarkPreview({ url }) {
 	// we start with an empty asset record
 	const asset = {
