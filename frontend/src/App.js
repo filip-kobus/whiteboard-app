@@ -20,6 +20,7 @@ import './index.css';
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getUser() {
@@ -41,17 +42,27 @@ function App() {
   }, [userHasAuthenticated]);
 
   return (
-    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, userId, setUserId, isLoading, setIsLoading }}>
+        <AppContext.Provider 
+          value={{ 
+            isAuthenticated, 
+            userHasAuthenticated, 
+            userId, 
+            setUserId, 
+            isLoading, 
+            setIsLoading, 
+            username, 
+            setUsername 
+          }}>
       <div className="global-background">
         <Router>
           <Navbar />
-          {isLoading && <Loading />} {/* Show loading spinner without blocking the entire app */}
+          {isLoading && <Loading />}
            <Routes>
              <Route path="/" element={!isAuthenticated ? <Home /> : <Manage userId={userId} />} />
              <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
              <Route path="/register" element={<Register />} />
              <Route path="/about" element={<About />} />
-             <Route path="/board/:roomId" element={<Board />} />
+             <Route path="/board/:token" element={<Board />} />
              <Route path="/board" element={<Join />} />
              <Route path="/account" element={
                <ProtectedRoute>

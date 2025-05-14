@@ -12,7 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
 
 function ManagePanel() {
-  const { userId } = useAppContext();
+  const { userId, username } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [boards, setBoards] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -48,10 +48,16 @@ function ManagePanel() {
       });
   
       if (!response.ok) throw new Error('Failed to create board');
-  
       const createdBoard = await response.json();
       setBoards((prevBoards) => [...prevBoards, createdBoard]);
-  
+
+      console.log(username);
+      await fetch(`${process.env.REACT_APP_API_URL}/addtoken`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ boardId: createdBoard.board.boardId, username: username }),
+      });
+
       await fetchBoards();
       setShowCreateModal(false);
     } catch (error) {
@@ -111,7 +117,7 @@ function ManagePanel() {
             className="board-wrapper"
           >
             <Board
-              destinationUrl={`/board/${board.boardId}`}
+              destinationUrl={`/board/${board.boardId + userId}&teacher=true`}
               boardId={board.boardId}
               userId={userId}
               onDelete={handleDeleteBoard}

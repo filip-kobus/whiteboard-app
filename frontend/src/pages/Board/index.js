@@ -10,15 +10,28 @@ import Sidebar from './Sidebar';
 const WORKER_URL = process.env.REACT_APP_TLDRAW_WORKER_URL;
 
 function Board() {
-	const { roomId } = useParams();
 	const [boardExists, setBoardExists] = useState(null);
+	let { token } = useParams();
+
+	const isTeacher = token.includes("teacher=true")
+	console.log(isTeacher)
+	if (isTeacher) {
+		token = token.split("&")[0];
+	}
+
+	const roomId = token.slice(0, 12);
 	useEffect(() => {
 		const checkBoardExists = async () => {
-			const apiUrl = `${process.env.REACT_APP_API_URL}/exists?boardId=${roomId}`;
+			const apiUrl = `${process.env.REACT_APP_API_URL}/verifytoken?token=${token}&teacher=${isTeacher}`;
 			try {
 				const response = await fetch(apiUrl);
+				console.log('Response from verifytoken:', response);
+				if (!response.ok) {
+					setBoardExists(false);
+					return;
+				}
 				const data = await response.json();
-				setBoardExists(data.exists);
+				setBoardExists(true);
 			} catch (error) {
 				console.error('Error checking board existence:', error);
 				setBoardExists(false);
@@ -34,7 +47,7 @@ function Board() {
 	});
 
 	if (boardExists === false) {
-		alert('Board does not exist!');
+		alert('Invalid token!');
 		window.location.href = '/board';
 		return null;
 	}
