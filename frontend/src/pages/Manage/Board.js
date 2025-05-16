@@ -37,9 +37,6 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete
               <Dropdown.Item onClick={handleManageTokens}>
                 Manage Tokens
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => navigator.clipboard.writeText(boardId)}>
-                Copy Token to Clipboard
-              </Dropdown.Item>
               <Dropdown.Item onClick={() => onDelete(boardId)}>
                 Delete Board
               </Dropdown.Item>

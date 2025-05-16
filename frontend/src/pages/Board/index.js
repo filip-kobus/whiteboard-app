@@ -3,25 +3,31 @@ import { Tldraw, useTldrawUser } from 'tldraw'
 import { getBookmarkPreview } from './getBookmarkPreview';
 import { multiplayerAssetStore } from './multiplayerAssetStore';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LoadingScreen } from 'tldraw';
 import Sidebar from './Sidebar';
 import { useAppContext } from "../../libs/contextLib";
 
-	
 function Board() {
 	const { username } = useAppContext();
 	const [boardExists, setBoardExists] = useState(null);
 	const [guestname, setGuestname] = useState('');
 	let { token } = useParams();
 
-	const isTeacher = token.includes("teacher=true")
-	console.log(isTeacher)
+	const isFirstTimestamp = useRef(true);
+
+	const isTeacher = token.includes("teacher=true");
 	if (isTeacher) {
 		token = token.split("&")[0];
 	}
 
 	const roomId = token.slice(0, 12);
+
+	const [userPreferences, setUserPreferences] = useState({
+		id: token,
+		name: guestname,
+	});
+
 	useEffect(() => {
 		const checkBoardExists = async () => {
 			const apiUrl = `${process.env.REACT_APP_API_URL}/verifytoken?token=${token}&teacher=${isTeacher}`;
@@ -45,13 +51,41 @@ function Board() {
 		checkBoardExists();
 	}, [roomId, token, isTeacher, username]);
 
+	// Timestamp reporting mechanism
+	useEffect(() => {
+		if (!boardExists || !token) return;
 
-	const [userPreferences, setUserPreferences] = useState({
-		id: token,
-		name: guestname,
-	});
+		const reportTimestamp = async (appendValue) => {
+			try {
+				await fetch(`${process.env.REACT_APP_API_URL}/timestamp`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						token,
+						append: appendValue,
+					}),
+				});
+			} catch (err) {
+				console.error('Failed to update timestamp:', err);
+			}
+		};
 
-	const user = useTldrawUser({ userPreferences, setUserPreferences })
+		// Report first timestamp (new timestamp)
+		if (isFirstTimestamp.current) {
+			reportTimestamp(false);
+			isFirstTimestamp.current = false;
+		}
+
+		const interval = setInterval(() => {
+			reportTimestamp(true); // increment counter on the latest timestamp
+		}, 60000);
+
+		return () => clearInterval(interval);
+	}, [boardExists, token]);
+
+	const user = useTldrawUser({ userPreferences, setUserPreferences });
 
 	const store = useSync({
 		uri: `${process.env.REACT_APP_TLDRAW_WORKER_URL}/connect/${roomId}`,
@@ -85,4 +119,4 @@ function Board() {
 	);
 }
 
-export default Board;
+export default Board;	

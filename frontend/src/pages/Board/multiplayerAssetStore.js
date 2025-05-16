@@ -1,4 +1,4 @@
-import { TLAssetStore, uniqueId } from 'tldraw';
+import { uniqueId } from 'tldraw';
 
 const WORKER_URL = process.env.REACT_APP_TLDRAW_WORKER_URL;
 

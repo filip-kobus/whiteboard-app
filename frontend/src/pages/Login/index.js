@@ -43,7 +43,6 @@ function Login() {
       message: 'Login successful! Redirecting...',
     });
     const user = await getCurrentUser();
-    console.log('User:', user);
     setUserId(user['userId']);
     userHasAuthenticated(true);
   };

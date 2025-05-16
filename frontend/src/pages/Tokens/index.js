@@ -62,13 +62,39 @@ export default function ManageToken() {
         }
     };
 
-    const handleCopyToken = (token) => {
-        navigator.clipboard.writeText(token).then(() => {
-            alert('Token copied to clipboard!');
-        }).catch((err) => {
-            console.error('Failed to copy token:', err);
-        });
+    const handleCopyLink = (token) => {
+        const url = `${process.env.REACT_APP_HOST_URL}/board/${token}`;
+        copy(url);
     };
+
+    function copy(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = "2em";
+        textArea.style.height = "2em";
+        textArea.style.padding = 0;
+        textArea.style.border = "none";
+        textArea.style.outline = "none";
+        textArea.style.boxShadow = "none";
+        textArea.style.background = "transparent";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                alert('Link copied to clipboard!');
+            } else {
+                alert('Failed to copy link.');
+            }
+        } catch (err) {
+            alert('Failed to copy link.');
+        }
+        document.body.removeChild(textArea);
+    }
 
     const handleDeleteToken = async (tokenToDelete) => {
         setIsLoading(true); // Start loading
@@ -88,6 +114,13 @@ export default function ManageToken() {
         }
     };
 
+    // Helper to format timestamps
+    function formatTimestamp(ts) {
+        if (!ts) return '';
+        const date = new Date(ts);
+        return date.toLocaleString();
+    }
+
     return (
         isLoading ? (
             <Loading />
@@ -103,11 +136,22 @@ export default function ManageToken() {
                 <div>
                     <TokenList
                         tokens={tokens}
-                        handleCopyToken={handleCopyToken}
+                        handleCopyToken={handleCopyLink}
                         handleDeleteToken={handleDeleteToken}
+                        renderTimestamp={(tokenEntry) => {
+                            // Show most recent timestamp and its counter, if present
+                            const timestamps = Array.isArray(tokenEntry.timestamps) ? tokenEntry.timestamps : [];
+                            if (timestamps.length === 0) return <span>No timestamps</span>;
+                            const last = timestamps[timestamps.length - 1];
+                            return (
+                                <span>
+                                    Last: {formatTimestamp(last.timestamp)} (count: {last.counter})
+                                </span>
+                            );
+                        }}
                     />
                 </div>
             </div>
-        )      
+        )
     );
 }

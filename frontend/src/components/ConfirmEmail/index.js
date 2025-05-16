@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { confirmSignUp, resendSignUpCode } from "aws-amplify/auth";
-import { useNavigate } from "react-router-dom";
 import ConfirmForm from "./ConfirmForm";
 import CloseButton from "./CloseButton";
 
