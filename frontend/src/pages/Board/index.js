@@ -72,14 +72,13 @@ function Board() {
 			}
 		};
 
-		// Report first timestamp (new timestamp)
-		if (isFirstTimestamp.current) {
-			reportTimestamp(false);
-			isFirstTimestamp.current = false;
-		}
-
 		const interval = setInterval(() => {
-			reportTimestamp(true); // increment counter on the latest timestamp
+			if (isFirstTimestamp.current) {
+				reportTimestamp(false);
+				isFirstTimestamp.current = false;
+			} else {
+				reportTimestamp(true);
+			}
 		}, 60000);
 
 		return () => clearInterval(interval);

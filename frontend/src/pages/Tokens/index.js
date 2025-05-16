@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AddTokenForm from './AddTokenForm';
 import TokenList from './TokenList';
 import './ManageTokenForm.css';
@@ -10,9 +10,9 @@ export default function ManageToken() {
     const [tokens, setTokens] = useState([]);
     const [username, setUsername] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch tokens for the board
         const fetchTokens = async () => {
             try {
                 setIsLoading(true);
@@ -37,9 +37,8 @@ export default function ManageToken() {
             return;
         }
 
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
         try {
-            // Send the new token to the backend
             const response = await fetch(`${process.env.REACT_APP_API_URL}/addtoken`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -114,12 +113,14 @@ export default function ManageToken() {
         }
     };
 
-    // Helper to format timestamps
-    function formatTimestamp(ts) {
-        if (!ts) return '';
-        const date = new Date(ts);
-        return date.toLocaleString();
-    }
+    // Instead of navigate, open stats in a popup window
+    const handleOpenStatsPopup = (token) => {
+        window.open(
+            `/token-stats/${token}`,
+            '_blank',
+            'width=600,height=600,noopener,noreferrer'
+        );
+    };
 
     return (
         isLoading ? (
@@ -138,17 +139,8 @@ export default function ManageToken() {
                         tokens={tokens}
                         handleCopyToken={handleCopyLink}
                         handleDeleteToken={handleDeleteToken}
-                        renderTimestamp={(tokenEntry) => {
-                            // Show most recent timestamp and its counter, if present
-                            const timestamps = Array.isArray(tokenEntry.timestamps) ? tokenEntry.timestamps : [];
-                            if (timestamps.length === 0) return <span>No timestamps</span>;
-                            const last = timestamps[timestamps.length - 1];
-                            return (
-                                <span>
-                                    Last: {formatTimestamp(last.timestamp)} (count: {last.counter})
-                                </span>
-                            );
-                        }}
+                        handleViewStats={handleOpenStatsPopup}
+                        renderTimestamp={() => null} // Don't render stats inline
                     />
                 </div>
             </div>
