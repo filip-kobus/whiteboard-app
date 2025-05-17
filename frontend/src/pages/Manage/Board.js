@@ -2,13 +2,21 @@ import { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ThreeDotsVertical } from 'react-bootstrap-icons';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import "./Boards.css";
 
-function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete, showManageModal }) {
+function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete, description }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
   const handleManageTokens = () => {
     window.location.href = `/manage/${boardId}`;
+  };
+
+  const handleShowDescription = () => {
+    setShowDescriptionModal(true);
+    setShowDropdown(false);
   };
 
   return (
@@ -37,6 +45,9 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete
               <Dropdown.Item onClick={handleManageTokens}>
                 Manage Tokens
               </Dropdown.Item>
+              <Dropdown.Item onClick={handleShowDescription}>
+                Show Description
+              </Dropdown.Item>
               <Dropdown.Item onClick={() => onDelete(boardId)}>
                 Delete Board
               </Dropdown.Item>
@@ -44,6 +55,19 @@ function Board({ imageUrl="/images/board.png", destinationUrl, boardId, onDelete
           </Dropdown>
         </div>
       </Card>
+      <Modal show={showDescriptionModal} onHide={() => setShowDescriptionModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Board Description</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {description ? description : <span className="text-muted">No description provided.</span>}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDescriptionModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

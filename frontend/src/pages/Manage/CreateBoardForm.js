@@ -1,7 +1,7 @@
 import DescriptionForm from './DescriptionForm';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function CreateBoard({ onCreate }) {
   const [newBoardName, setNewBoardName] = useState('');
@@ -17,7 +17,7 @@ export default function CreateBoard({ onCreate }) {
 
     const newBoard = {
       name: newBoardName,
-      description: description || '',
+      description: description,
     };
 
     onCreate(newBoard);
@@ -39,7 +39,7 @@ export default function CreateBoard({ onCreate }) {
               onChange={(e) => setNewBoardName(e.target.value)}
             />
           </Form.Group>
-          <DescriptionForm desription={description} setDescription={setDescription} />
+          <DescriptionForm description={description} setDescription={setDescription} />
           <Button className="submit-button" type="submit">
             Create Board
           </Button>

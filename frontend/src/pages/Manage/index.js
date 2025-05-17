@@ -44,7 +44,7 @@ function ManagePanel() {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/addboard`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, boardName: newBoard.name }),
+        body: JSON.stringify({ userId, boardName: newBoard.name, description: newBoard.description }),
       });
   
       if (!response.ok) throw new Error('Failed to create board');
@@ -122,6 +122,7 @@ function ManagePanel() {
               userId={userId}
               onDelete={handleDeleteBoard}
               onManage={() => handleNavigateToManageTokens(board.boardId)}
+              description={board.description}
             />
             <p className="board-title">{board.boardName}</p>
           </div>
@@ -143,7 +144,7 @@ function ManagePanel() {
           <Modal.Title>Create New Board</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateBoard onCreate={handleAddBoard} />
+          <CreateBoard onCreate={handleAddBoard}/>
         </Modal.Body>
       </Modal>
     </Container>
