@@ -1,8 +1,8 @@
-import { Clipboard, Trash } from 'react-bootstrap-icons';
-import TokenStats from "./TokenStats";
+import { Clipboard, Trash, BarChart } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import TokenStatsModal from "./TokenStatsModal";
 
-export default function TokenList({ tokens, handleCopyToken, handleDeleteToken, handleViewStats }) {
+export default function TokenList({ tokens, handleCopyToken, handleDeleteToken }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedToken, setSelectedToken] = useState(null);
 
@@ -17,97 +17,74 @@ export default function TokenList({ tokens, handleCopyToken, handleDeleteToken, 
     };
 
     return (
-        <div className="token-container p-4" style={{ flex: 2 }}>
-            <div className={`row ${tokens.length < 2 ? 'justify-content-center' : ''}`}>
+        <div
+            className="token-container p-4"
+            style={{
+                flex: 2,
+                width: "60vw",
+                maxWidth: "60vw",
+                boxSizing: "border-box",
+                margin: "0 auto"
+            }}
+        >
+            <div
+                className="row"
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "1.5rem",
+                    width: "100%",
+                    margin: 0
+                }}
+            >
                 {tokens.map((tokenObj, index) => (
                     <div
                         key={index}
-                        className="col-md-6 mb-3 d-flex justify-content-between align-items-center gap-2"
+                        className="token-card d-flex flex-column justify-content-between align-items-start p-3"
+                        style={{
+                            background: "#f8f9fa",
+                            borderRadius: "10px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                            minHeight: "100px",
+                            height: "100%",
+                            border: "1px solid #e0e0e0"
+                        }}
                     >
-                        <div className="d-flex flex-column">
-                            <span>{tokenObj.username}</span>
-                            {/* View Stats link under each token */}
-                            <a
-                                href="#"
-                                className="small text-primary mt-1"
-                                style={{ width: "fit-content" }}
-                                onClick={e => {
-                                    e.preventDefault();
-                                    openStatsModal(tokenObj);
-                                }}
-                            >
-                                View Stats
-                            </a>
+                        <div className="d-flex flex-column w-100 mb-2">
+                            <span className="fw-bold mb-1">{tokenObj.username}</span>
                         </div>
-                        <div className="d-flex align-items-center">
+                        <div className="d-flex align-items-center mt-auto w-100 gap-1">
                             <Clipboard
                                 size={20}
                                 className="me-3 icon-hover"
                                 onClick={() => handleCopyToken(tokenObj.token)}
                                 title="Copy Token"
+                                style={{ cursor: "pointer" }}
+                            />
+                            <BarChart
+                                size={22}
+                                className="me-3 icon-hover"
+                                style={{ cursor: "pointer" }}
+                                title="View Stats"
+                                onClick={() => openStatsModal(tokenObj)}
                             />
                             <Trash
                                 size={20}
-                                className="icon-hover"
+                                className="me-3 icon-hover"
                                 onClick={() => handleDeleteToken(tokenObj.token)}
                                 title="Remove Token"
+                                style={{ cursor: "pointer" }}
                             />
                         </div>
                     </div>
                 ))}
             </div>
             {modalOpen && selectedToken && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        width: "100vw",
-                        height: "100vh",
-                        background: "rgba(0,0,0,0.4)",
-                        zIndex: 9999,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center"
-                    }}
-                    onClick={closeModal}
-                >
-                    <div
-                        style={{
-                            background: "#fff",
-                            padding: "2rem",
-                            borderRadius: "8px",
-                            minWidth: "320px",
-                            maxWidth: "90vw",
-                            maxHeight: "90vh",
-                            overflowY: "auto",
-                            position: "relative"
-                        }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <button
-                            style={{
-                                position: "absolute",
-                                top: 8,
-                                right: 8,
-                                border: "none",
-                                background: "transparent",
-                                fontSize: "1.5rem",
-                                cursor: "pointer"
-                            }}
-                            onClick={closeModal}
-                            aria-label="Close"
-                        >
-                            &times;
-                        </button>
-                        <TokenStats
-                            timestamps={selectedToken.timestamps}
-                            totalMinutes={selectedToken.totalMinutes}
-                            username={selectedToken.username}
-                            token={selectedToken.token}
-                        />
-                    </div>
-                </div>
+                <TokenStatsModal
+                    open={modalOpen}
+                    onClose={closeModal}
+                    tokenData={selectedToken}
+                />
             )}
         </div>
     );

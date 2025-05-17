@@ -1,9 +1,17 @@
+import { useState } from 'react';
+
 export default function TokenStats({ timestamps, totalMinutes, username, token }) {
     function formatTimestamp(ts) {
         if (!ts) return '';
         const date = new Date(ts);
         return date.toLocaleString();
     }
+
+    const [showAll, setShowAll] = useState(false);
+
+    const allTimestamps = Array.isArray(timestamps) ? timestamps : [];
+    const lastFive = allTimestamps.slice(-5);
+    const displayTimestamps = showAll ? allTimestamps : lastFive;
 
     return (
         <div style={{ minWidth: 250 }}>
@@ -23,9 +31,9 @@ export default function TokenStats({ timestamps, totalMinutes, username, token }
             </div>
             <div className="mb-2">
                 <strong>Sessions:</strong>
-                {Array.isArray(timestamps) && timestamps.length > 0 ? (
+                {displayTimestamps.length > 0 ? (
                     <ul className="list-unstyled mt-2">
-                        {timestamps.map((ts, idx) => (
+                        {displayTimestamps.map((ts, idx) => (
                             <li key={idx} style={{ marginBottom: 4 }}>
                                 <span className="text-secondary">{formatTimestamp(ts.timestamp)}</span>
                                 {" — "}
@@ -35,6 +43,24 @@ export default function TokenStats({ timestamps, totalMinutes, username, token }
                     </ul>
                 ) : (
                     <div className="text-muted small">No sessions recorded</div>
+                )}
+                {!showAll && allTimestamps.length > 5 && (
+                    <button
+                        className="btn btn-link p-0 mt-1"
+                        style={{ fontSize: "0.95em" }}
+                        onClick={() => setShowAll(true)}
+                    >
+                        Show all ({allTimestamps.length})
+                    </button>
+                )}
+                {showAll && allTimestamps.length > 5 && (
+                    <button
+                        className="btn btn-link p-0 mt-1"
+                        style={{ fontSize: "0.95em" }}
+                        onClick={() => setShowAll(false)}
+                    >
+                        Show last 5
+                    </button>
                 )}
             </div>
         </div>

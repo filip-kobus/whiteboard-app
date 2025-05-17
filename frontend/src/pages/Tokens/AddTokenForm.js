@@ -1,6 +1,6 @@
-import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import './ManageTokenForm.css';
 
 export default function AddTokenForm({ username, setUsername, handleGenerateToken }) {
     return (
@@ -17,11 +17,11 @@ export default function AddTokenForm({ username, setUsername, handleGenerateToke
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <Button
-                            className="submit-button mb-3"
+                            className="generate-button mb-3"
                             type="submit"
                             onClick={handleGenerateToken}
                         >
-                            Generate Token
+                            Add Token
                         </Button>
                     </div>
                 </Form.Group>
