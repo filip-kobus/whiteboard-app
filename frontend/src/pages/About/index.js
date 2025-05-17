@@ -1,20 +1,20 @@
-import React from 'react';
 import { Container } from 'react-bootstrap';
 
 function About() {
   return (
     <div className="mt-5">
-      <Container className="padding-10 text-center">
-        <h2 className="text-center mb-4 title">About Us</h2>
-        <p className="text-center mb-4 subtitle">
-          Welcome to our application! Here's a little about who we are and what we do.
+      <Container className="py-4 text-center">
+        <h2 className="mb-4 title">About Us</h2>
+        <p className="mb-4 subtitle">
+          Welcome to my application! Here’s a little about the project.
         </p>
-        <p className="text-center">
-          Our mission is to provide innovative tools that empower creativity and collaboration.
-          We are a passionate team dedicated to delivering the best user experience possible.
+        <p className='text-center'>
+          This is a simple web app for creating and managing whiteboards. 
+          It offers an intuitive interface for adding, viewing, and deleting tokens. 
+          Built with React and Bootstrap, it’s deployed using serverless technologies like AWS Lambda and DynamoDB.
         </p>
-        <p className="text-center">
-          Thank you for choosing our platform. We hope it helps you achieve your goals!
+        <p className='text-center'>
+          Thank you for choosing this platform. I hope you enjoy it!
         </p>
       </Container>
     </div>
