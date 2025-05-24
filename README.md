@@ -20,8 +20,12 @@ This project includes a serverless backend for user, board, and token management
 
 ## Environment Variables
 
-- Create a `.env` file in the root directory.
-- Add any required variables such as:
+- Create a `.env.local` file in the frontend directory.
+- Add required variables such as:
   ```bash
+  REACT_APP_COGNITO_CLIENT_ID="your-cognito-client-id"
+  REACT_APP_COGNITO_USER_POOL_ID="your-user-pool-id"
   REACT_APP_API_URL=http://your-api-url
+  REACT_APP_TLDRAW_WORKER_URL=http://your-cloudflare-worker-url
+  REACT_APP_HOST_URL=domain_of_hosted_app
   ```
