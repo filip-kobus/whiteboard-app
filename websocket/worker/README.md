@@ -1,6 +1,6 @@
 # WebSocket Worker for Whiteboard App
 
-This directory contains the Cloudflare Worker and Durable Object code for real-time collaboration and asset management in the Whiteboard App. It is written in TypeScript and uses the itty-router library for routing.
+This directory contains the Cloudflare Worker and Durable Object code for real-time collaboration and asset management in the Whiteboard App.
 
 ## Features
 
