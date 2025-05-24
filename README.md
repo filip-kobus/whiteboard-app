@@ -58,39 +58,6 @@ This project implements a modern serverless architecture combining AWS and Cloud
 
 📚 **Documentation**: [`websocket/worker/README.md`](./websocket/worker/README.md)
 
-## Deployment Guide
-
-This project uses a serverless architecture designed for cheap, on-demand workflow.
-
-### Architecture Overview
-
-![Architecture Diagram](architecture.png)
-
-### AWS Services
-
-#### **Frontend Hosting**
-- **Amazon S3**: Static website hosting
-- **CloudFront**: Global CDN with HTTPS
-
-#### **Backend API**
-- **API Gateway**: HTTP endpoints
-- **Lambda Functions**: Serverless compute
-- **DynamoDB**: NoSQL database with the following tables:
-  - `users`: User profiles and board associations
-  - `boards`: Board metadata, tokens, and access control
-
-#### **Authentication**
-- **Amazon Cognito**: User accounts management
-
-### Cloudflare Services
-
-#### **Real-time Features**
-- **Cloudflare Workers**: WebSocket handling
-- **Durable Objects**: Managing boards states
-- **R2 Storage**: Storage for assets
-
----
-
 ## Environment Configuration
 
 Configure these environment variables across all services for proper integration:
@@ -129,6 +96,39 @@ BOARDS_TABLE="boards"
 # Other AWS service configurations
 AWS_REGION="eu-central-1"
 ```
+
+---
+
+## Deployment Guide
+
+This project uses a serverless architecture designed for cheap, on-demand workflow.
+
+### Architecture Overview
+
+![Architecture Diagram](architecture.png)
+
+### AWS Services
+
+#### **Frontend Hosting**
+- **Amazon S3**: Static website hosting
+- **CloudFront**: Global CDN with HTTPS
+
+#### **Backend API**
+- **API Gateway**: HTTP endpoints
+- **Lambda Functions**: Serverless compute
+- **DynamoDB**: NoSQL database with the following tables:
+  - `users`: User profiles and board associations
+  - `boards`: Board metadata, tokens, and access control
+
+#### **Authentication**
+- **Amazon Cognito**: User accounts management
+
+### Cloudflare Services
+
+#### **Real-time Features**
+- **Cloudflare Workers**: WebSocket handling
+- **Durable Objects**: Managing boards states
+- **R2 Storage**: Storage for assets
 
 ---
 
