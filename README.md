@@ -66,13 +66,7 @@ This project uses a serverless architecture designed for cheap, on-demand workfl
 
 ### Architecture Overview
 
-```
-Frontend (React) → CloudFront → S3
-     ↓
-API Gateway → Lambda Functions → DynamoDB
-     ↓
-Cloudflare Workers → Durable Objects → R2 Storage
-```
+![Architecture Diagram](architecture.svg)
 
 ### AWS Services
 
