@@ -5,16 +5,14 @@ This directory contains the Cloudflare Worker and Durable Object code for real-t
 ## Features
 
 - **Real-time Collaboration**: Each whiteboard room is managed by a Durable Object, which keeps the room state in memory and syncs changes between connected clients via WebSockets.
-- **Asset Upload/Download**: Users can upload images and videos to the R2 bucket. Assets are served with proper caching and CORS headers for efficient and secure access.
-- **Board Existence Check**: Before connecting to a room, the worker checks if the board exists via an external API call.
-- **CORS Support**: All endpoints are CORS-enabled for cross-origin requests.
-- **Caching**: Asset downloads are cached for performance, with immutable cache headers.
+- **Asset Upload/Download**: Users can upload images and videos to the R2 bucket.
+- **Board Existence Check**: Before connecting to a room, the worker checks if the board exists via an AWS API call.
 
 ## Endpoints
 
 ### WebSocket/Realtime
 - `GET /connect/:roomId`  
-  Proxies the connection to the Durable Object for the specified room. Only allows connection if the board exists.
+  Proxies the connection to the Durable Object for the specified room. Only allows connection if the board exists in AWS backend.
 
 ### Asset Management
 - `POST /uploads/:uploadId`  
