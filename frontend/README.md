@@ -1,43 +1,31 @@
 # Frontend - Whiteboard App
 
-This is the React frontend for the Whiteboard App, built with modern React patterns and AWS Cognito (ipmplemented via AWS amplify framework) for authentication. It provides a user-friendly interface for creating and managing whiteboards, user accounts, and collaborative drawing sessions.
+This is the React frontend for the Whiteboard App, built with React and AWS Cognito (ipmplemented via AWS amplify framework) for authentication. It provides a user-friendly interface for creating and managing whiteboards, user accounts, and collaborative drawing sessions.
 
 ## Tech Stack
 
-- **React 18** with functional components and hooks
-- **React Router** for client-side routing
-- **React Bootstrap** for UI components and styling
-- **AWS Amplify** for authentication and user management
-- **Tldraw** for the collaborative whiteboard functionality
-- **Axios** for API calls to the backend
+- **React 18**
+- **React Bootstrap**
+- **AWS Cognito**
+- **Tldraw**
+- **Axios**
 
 ## Project Structure
 
 ```
 src/
-├── App.js                 # Main app component with routing and context
-├── index.js              # React app entry point
-├── index.css             # Global styles
+├── App.js
+├── index.js
+├── index.css
 ├── components/           # Reusable UI components
-│   ├── Alert/           # Alert message component
-│   ├── ConfirmEmail/    # Email confirmation flow
-│   ├── Loading/         # Loading spinner component
-│   ├── Navbar/          # Navigation bar
-│   └── ProtectedRoute/  # Route protection for authenticated users
-├── libs/                # Utility libraries
-│   ├── contextLib.js    # React context for app state
-│   └── fetchuser.js     # User fetching utilities
-└── pages/               # Page components
-    ├── About/           # About page
-    ├── Account/         # User account management
-    ├── Board/           # Collaborative whiteboard view
-    ├── Home/            # Landing page
-    ├── Join/            # Join whiteboard with token
-    ├── Login/           # User authentication
-    ├── Manage/          # Board management dashboard
-    ├── NotFound/        # 404 error page
-    ├── Register/        # User registration
-    └── Tokens/          # Token management for boards
+│   ├── ...
+│   └── Navbar/
+├── libs/                 # Utility libraries
+│   ├── contextLib.js
+│   └── fetchuser.js
+└── pages/                # Page components
+    ├── ...
+    └── Register/
 ```
 
 ## Key Features
@@ -79,16 +67,6 @@ src/
 - **Account** (`/account`): User profile and logout functionality
 - **About** (`/about`): Information about the application
 
-## Environment Variables
-
-Create a `.env.local` file in the frontend directory with:
-
-```bash
-REACT_APP_API_URL=https://your-api-gateway-url
-REACT_APP_TLDRAW_WORKER_URL=https://your-cloudflare-worker-url
-REACT_APP_HOST_URL=https://your-frontend-url
-```
-
 ## Installation and Setup
 
 1. Navigate to the frontend directory:
@@ -103,7 +81,7 @@ REACT_APP_HOST_URL=https://your-frontend-url
 
 3. Set up environment variables (see above)
 
-4. Configure AWS Amplify authentication in your project
+4. Configure backend - covered in [TODO]
 
 5. Start the development server:
    ```bash
