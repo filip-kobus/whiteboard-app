@@ -1,9 +1,7 @@
-
 # Whiteboard App
+A simple whiteboard app built on the [tldraw](https://tldraw.dev/) framework. Users can create accounts and generate unique tldraw boards. Each board can have a permalink, allowing others to access the board without needing to log in.
 
-A simple whiteboard app with authentication and protected routes.
-
-## How to Run the App
+## How to Run the frontend
 
 1. Clone the repository:
    ```bash
@@ -30,6 +28,15 @@ A simple whiteboard app with authentication and protected routes.
    ```
 
    The app will be available at `http://localhost:3000`.
+
+---
+
+## Backend Overview
+
+This project includes a serverless backend for user, board, and token management, as well as real-time collaboration and asset uploads.
+
+- **Lambdas (`/lambdas`)**: AWS Lambda functions (Node.js) for user, board, and token management, using DynamoDB as the data store. Includes endpoints for adding/removing users and boards, managing tokens, and verifying access. See [`lambdas/README.md`](./lambdas/README.md) for details and example payloads.
+- **WebSocket Worker (`/websocket/worker`)**: Cloudflare Worker and Durable Object for real-time collaboration and asset management. Handles WebSocket connections for live board sync, and asset uploads/downloads to R2 storage. See [`websocket/worker/README.md`](./websocket/worker/README.md) for endpoints and usage.
 
 ---
 
