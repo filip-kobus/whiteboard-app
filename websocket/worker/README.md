@@ -28,11 +28,7 @@ This directory contains the Cloudflare Worker and Durable Object code for real-t
   Upload an image or video asset. Only accepts `image/*` or `video/*` content types. Returns 409 if the asset already exists.
 - `GET /uploads/:uploadId`  
   Download an asset. Supports range requests and caches responses for performance.
-
-### Unfurling
-- `GET /unfurl`  
-  Extracts metadata from pasted URLs (for bookmarks, etc.).
-
+  
 ## Durable Object: TldrawDurableObject
 - Manages a single whiteboard room's state and WebSocket connections.
 - Persists room state to R2 every 10 seconds (throttled).
@@ -41,25 +37,26 @@ This directory contains the Cloudflare Worker and Durable Object code for real-t
 ## Environment Bindings (see `wrangler.toml`)
 - `TLDRAW_BUCKET`: R2 bucket for storing assets and room snapshots.
 - `TLDRAW_DURABLE_OBJECT`: Durable Object namespace for rooms.
-- `API_URL`: (injected) URL for checking board existence.
-
-## Development
-- Written in TypeScript.
-- Uses itty-router for routing and CORS.
-- See `wrangler.toml` for deployment configuration.
+- `API_URL`: URL for checking board existence.
 
 ## Example Usage
-- Upload an asset:
+- Create store object which will allow connection with room
   ```sh
-  curl -X POST -H "content-type: image/png" --data-binary @myimage.png https://<worker-url>/uploads/my-upload-id
+  const store = useSync({
+		uri: `${process.env.REACT_APP_TLDRAW_WORKER_URL}/connect/${roomId}`,
+		assets: multiplayerAssetStore,
+		userInfo: userPreferences
+	});
   ```
-- Download an asset:
-  ```sh
-  curl https://<worker-url>/uploads/my-upload-id
-  ```
-- Connect to a room (WebSocket):
+- Mount Tldraw component in frontent:
   ```js
-  const ws = new WebSocket('wss://<worker-url>/connect/room-123?sessionId=abc');
+  <Tldraw
+    store={store}
+    onMount={(editor) => {
+      editor.registerExternalAssetHandler('url', getBookmarkPreview);				
+    }}
+    user={user}
+  />
   ```
 
 ---
