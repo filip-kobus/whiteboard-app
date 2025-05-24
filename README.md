@@ -7,8 +7,8 @@ A collaborative whiteboard application built on the powerful [tldraw](https://tl
 - [Getting Started](#getting-started)
 - [Frontend](#frontend)
 - [Backend Architecture](#backend-architecture)
-- [Deployment Guide](#deployment-guide)
 - [Environment Configuration](#environment-configuration)
+- [Deployment Guide](#deployment-guide)
 - [Contributing](#contributing)
 
 ## Getting Started
