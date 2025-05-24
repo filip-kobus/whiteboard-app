@@ -66,7 +66,7 @@ This project uses a serverless architecture designed for cheap, on-demand workfl
 
 ### Architecture Overview
 
-![Architecture Diagram](architecture.svg)
+![Architecture Diagram](architecture.png)
 
 ### AWS Services
 
