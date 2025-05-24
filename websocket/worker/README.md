@@ -39,7 +39,7 @@ This directory contains the Cloudflare Worker and Durable Object code for real-t
 		userInfo: userPreferences
 	});
   ```
-- Mount Tldraw component in frontent:
+- Mount Tldraw component in frontend:
   ```js
   <Tldraw
     store={store}
