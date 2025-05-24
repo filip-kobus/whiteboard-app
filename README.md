@@ -38,12 +38,12 @@ For detailed setup instructions, features, and architecture, see [`frontend/READ
 
 ## Backend Architecture
 
-This project implements a modern serverless architecture combining AWS and Cloudflare services for optimal performance, scalability, and real-time capabilities.
+This project implements a modern serverless architecture combining AWS and Cloudflare services.
 
 ### System Components
 
 #### **Lambda Functions** (`/lambdas`)
-AWS Lambda functions built with Node.js handle core business logic:
+AWS Lambda functions built with Node.js:
 - **User Management**: Registration, authentication, profile management
 - **Board Operations**: Create, delete, and manage whiteboard metadata
 - **Token System**: Generate and manage secure shareable links
@@ -62,7 +62,7 @@ Cloudflare Workers with Durable Objects power real-time features:
 
 ## Deployment Guide
 
-This project uses a serverless architecture designed for high availability and global performance.
+This project uses a serverless architecture designed for cheap, on-demand workflow.
 
 ### Architecture Overview
 
@@ -77,13 +77,12 @@ Cloudflare Workers → Durable Objects → R2 Storage
 ### AWS Services
 
 #### **Frontend Hosting**
-- **Amazon S3**: Static website hosting for React build files
-- **CloudFront**: Global CDN with HTTPS termination and SPA routing
-- **Route 53**: Domain management (optional)
+- **Amazon S3**: Static website hosting
+- **CloudFront**: Global CDN with HTTPS
 
 #### 🔌 **Backend API**
-- **API Gateway**: REST endpoints with CORS support and request validation
-- **Lambda Functions**: Serverless compute for business logic execution
+- **API Gateway**: REST endpoints
+- **Lambda Functions**: Serverless compute
 - **DynamoDB**: NoSQL database with the following tables:
   - `users`: User profiles and board associations
   - `boards`: Board metadata, tokens, and access control
@@ -98,9 +97,9 @@ Cloudflare Workers → Durable Objects → R2 Storage
 ### Cloudflare Services
 
 #### **Real-time Features**
-- **Cloudflare Workers**: Edge computing for WebSocket handling
-- **Durable Objects**: Stateful room management and user presence
-- **R2 Storage**: Cost-effective asset storage for images and room snapshots
+- **Cloudflare Workers**: WebSocket handling
+- **Durable Objects**: Managing boards states
+- **R2 Storage**: Storage for assets
 
 ---
 
@@ -134,12 +133,12 @@ aws dynamodb create-table \
 ```
 
 **Configure API Gateway:**
-- Create REST API with CORS enabled
+- Create REST API
 - Set up Lambda proxy integrations
 - Deploy to production stage
 
 **Set up Cognito:**
-- Create User Pool with email verification
+- Create User Pool
 - Configure App Client for frontend integration
 - Set up Amplify authentication
 
@@ -207,7 +206,7 @@ USERS_TABLE="users"
 BOARDS_TABLE="boards"
 
 # Other AWS service configurations
-AWS_REGION="us-east-1"
+AWS_REGION="eu-central-1"
 ```
 
 ---
