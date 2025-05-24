@@ -15,13 +15,6 @@ This directory contains AWS Lambda functions (Node.js) for the Whiteboard App ba
 - **doesBoardExist.js**: Checks if a board exists in the `boards` table.
 - **getTokens.js**: Retrieves all tokens for a given board.
 
-## Common Patterns
-
-- All functions use the AWS SDK v3 (`@aws-sdk/client-dynamodb` and `@aws-sdk/lib-dynamodb`).
-- DynamoDB tables used: `users` and `boards`.
-- Each handler expects an API Gateway event (with `body` or `queryStringParameters`).
-- All responses are JSON with appropriate HTTP status codes.
-
 ## Usage
 
 These lambdas are designed to be deployed as serverless functions (e.g., via AWS Lambda + API Gateway). They expect requests from the frontend or other services, and interact with DynamoDB for persistent storage.
@@ -52,19 +45,6 @@ These lambdas are designed to be deployed as serverless functions (e.g., via AWS
     "username": "student1"
   }
   ```
-
-## Error Handling
-
-- Returns `400` for missing/invalid parameters.
-- Returns `404` for not found resources.
-- Returns `500` for internal server errors.
-
-## Extending
-
-To add new endpoints, follow the structure of existing lambdas:
-- Parse and validate input.
-- Interact with DynamoDB as needed.
-- Return a JSON response with status code.
 
 ---
 
