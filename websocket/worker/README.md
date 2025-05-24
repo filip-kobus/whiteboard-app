@@ -2,13 +2,6 @@
 
 This directory contains the Cloudflare Worker and Durable Object code for real-time collaboration and asset management in the Whiteboard App. It is written in TypeScript and uses the itty-router library for routing.
 
-## Overview
-
-- **worker.ts**: Main entry point for the Cloudflare Worker. Handles HTTP/WebSocket routing, CORS, and delegates requests to the appropriate handlers or Durable Object.
-- **TldrawDurableObject.ts**: Implements a Durable Object for each whiteboard room, managing real-time state and WebSocket connections. Persists room state to R2 storage.
-- **assetUploads.ts**: Handles asset (image/video) uploads and downloads to/from R2 storage, including caching and CORS headers.
-- **types.ts**: Type definitions for the Worker environment, including R2 bucket and Durable Object bindings.
-
 ## Features
 
 - **Real-time Collaboration**: Each whiteboard room is managed by a Durable Object, which keeps the room state in memory and syncs changes between connected clients via WebSockets.
