@@ -2,15 +2,6 @@
 
 A collaborative whiteboard application built on the powerful [tldraw](https://tldraw.dev/) framework. This app enables users to create accounts, generate unique interactive whiteboards, and share them with others through secure permalink access - no login required for viewers!
 
-## Key Features
-
-- **Interactive Whiteboards**: Create unlimited drawing boards with full tldraw functionality
-- **Real-time Collaboration**: Multiple users can collaborate simultaneously on the same board
-- **Shareable Links**: Generate secure permalinks for instant board access
-- **User Authentication**: Secure account system with AWS Cognito
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
-- **Serverless Architecture**: Scalable backend with AWS Lambda and Cloudflare Workers
-
 ## Table of Contents
 
 - [Getting Started](#getting-started)
