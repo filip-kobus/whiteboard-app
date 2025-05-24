@@ -51,7 +51,7 @@ AWS Lambda functions built with Node.js handle core business logic:
 
 📚 **Documentation**: [`lambdas/README.md`](./lambdas/README.md)
 
-#### ⚡ **WebSocket Worker** (`/websocket/worker`)
+#### **WebSocket Worker** (`/websocket/worker`)
 Cloudflare Workers with Durable Objects power real-time features:
 - **Live Collaboration**: WebSocket connections for real-time board sync
 - **Asset Management**: File uploads/downloads with R2 storage
