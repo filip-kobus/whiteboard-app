@@ -1,33 +1,11 @@
 # Whiteboard App
 A simple whiteboard app built on the [tldraw](https://tldraw.dev/) framework. Users can create accounts and generate unique tldraw boards. Each board can have a permalink, allowing others to access the board without needing to log in.
 
-## How to Run the frontend
+## Frontend
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/filip-kobus/whiteboard-app
-   ```
+The React frontend provides a user-friendly interface for creating and managing whiteboards, user accounts, and collaborative drawing sessions. Built with React 18, AWS Amplify for authentication, and Tldraw for real-time collaboration.
 
-2. Navigate to the project directory:
-   ```bash
-   cd whiteboard-app
-   ```
-
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-4. Set up your environment variables:
-   - Create a `.env.local` file in the root directory.
-   - Add the necessary environment variables (e.g., authentication API URL, etc.) based on the `.env.example` file, or as required by your project.
-
-5. Start the development server:
-   ```bash
-   npm start
-   ```
-
-   The app will be available at `http://localhost:3000`.
+For detailed setup instructions, features, and architecture, see [`frontend/README.md`](./frontend/README.md).
 
 ---
 
