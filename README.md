@@ -1,6 +1,6 @@
 # Whiteboard App
 
-A collaborative whiteboard application built on the powerful [tldraw](https://tldraw.dev/) framework. This app enables users to create accounts, generate unique interactive whiteboards, and share them with others through secure permalink access - no login required for viewers!
+A collaborative whiteboard application built on the powerful [tldraw](https://tldraw.dev/) framework. This app enables users to create accounts, generate unique interactive whiteboards, and share them with others through secure permalink access - no login required for viewers.
 
 ## Table of Contents
 
@@ -32,7 +32,7 @@ A collaborative whiteboard application built on the powerful [tldraw](https://tl
 
 ## Frontend
 
-The React frontend provides a user-friendly interface for creating and managing whiteboards, user accounts, and collaborative drawing sessions. Built with React 18, AWS Amplify for authentication, and Tldraw for real-time collaboration.
+The React frontend provides a user-friendly interface for creating and managing whiteboards, user accounts, and collaborative drawing sessions. Built with React 18, AWS Cognito for authentication, and Tldraw.
 
 For detailed setup instructions, features, and architecture, see [`frontend/README.md`](./frontend/README.md).
 
@@ -43,20 +43,18 @@ This project implements a modern serverless architecture combining AWS and Cloud
 ### System Components
 
 #### **Lambda Functions** (`/lambdas`)
-AWS Lambda functions built with Node.js:
-- **User Management**: Registration, authentication, profile management
-- **Board Operations**: Create, delete, and manage whiteboard metadata
-- **Token System**: Generate and manage secure shareable links
-- **Data Storage**: DynamoDB integration for persistent data
+- **User Management**
+- **Board Operations**
+- **Token System**
+- **Data Storage**
 
 📚 **Documentation**: [`lambdas/README.md`](./lambdas/README.md)
 
 #### **WebSocket Worker** (`/websocket/worker`)
-Cloudflare Workers with Durable Objects power real-time features:
-- **Live Collaboration**: WebSocket connections for real-time board sync
-- **Asset Management**: File uploads/downloads with R2 storage
-- **Room State**: Persistent room management and user presence
-- **Performance**: Global edge network for low-latency connections
+- **Live Collaboration**
+- **Asset Management**
+- **Room State**
+
 
 📚 **Documentation**: [`websocket/worker/README.md`](./websocket/worker/README.md)
 
@@ -74,19 +72,15 @@ This project uses a serverless architecture designed for cheap, on-demand workfl
 - **Amazon S3**: Static website hosting
 - **CloudFront**: Global CDN with HTTPS
 
-#### 🔌 **Backend API**
-- **API Gateway**: REST endpoints
+#### **Backend API**
+- **API Gateway**: HTTP endpoints
 - **Lambda Functions**: Serverless compute
 - **DynamoDB**: NoSQL database with the following tables:
   - `users`: User profiles and board associations
   - `boards`: Board metadata, tokens, and access control
 
 #### **Authentication**
-- **Amazon Cognito**: Complete user management solution
-  - User pools for registration and authentication
-  - Email verification workflows
-  - JWT token generation and validation
-  - AWS Amplify SDK integration
+- **Amazon Cognito**: User accounts management
 
 ### Cloudflare Services
 
@@ -97,74 +91,7 @@ This project uses a serverless architecture designed for cheap, on-demand workfl
 
 ---
 
-### Step-by-Step Deployment
-
-#### 1️⃣ **AWS Infrastructure Setup**
-
-**Deploy Lambda Functions:**
-```bash
-# Package and deploy Lambda functions
-cd lambdas
-zip -r lambda-functions.zip .
-# Upload via AWS Console or use SAM/CDK for automated deployment
-```
-
-**Create Database Tables:**
-```bash
-# Create Users table
-aws dynamodb create-table \
-  --table-name users \
-  --attribute-definitions AttributeName=userId,AttributeType=S \
-  --key-schema AttributeName=userId,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST
-
-# Create Boards table
-aws dynamodb create-table \
-  --table-name boards \
-  --attribute-definitions AttributeName=boardId,AttributeType=S \
-  --key-schema AttributeName=boardId,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST
-```
-
-**Configure API Gateway:**
-- Create REST API
-- Set up Lambda proxy integrations
-- Deploy to production stage
-
-**Set up Cognito:**
-- Create User Pool
-- Configure App Client for frontend integration
-- Set up Amplify authentication
-
-#### 2️⃣ **Cloudflare Workers Setup**
-
-```bash
-cd websocket
-npm install
-
-# Configure wrangler.toml with your account details
-npx wrangler deploy
-
-# Set up R2 bucket for asset storage
-npx wrangler r2 bucket create whiteboard-assets
-```
-
-#### 3️⃣ **Frontend Deployment**
-
-```bash
-cd frontend
-npm install
-npm run build
-
-# Deploy to S3
-aws s3 sync build/ s3://your-whiteboard-bucket
-
-# Create CloudFront distribution
-aws cloudfront create-distribution \
-  --distribution-config file://cloudfront-config.json
-```
-
-### Environment Configuration
+## Environment Configuration
 
 Configure these environment variables across all services for proper integration:
 
@@ -202,6 +129,79 @@ BOARDS_TABLE="boards"
 # Other AWS service configurations
 AWS_REGION="eu-central-1"
 ```
+
+---
+
+## Step-by-Step Deployment
+
+#### 1️⃣ **AWS Infrastructure Setup**
+
+**Deploy Lambda Functions:**
+```bash
+# Package and deploy Lambda functions
+cd lambdas
+zip -r lambda-functions.zip .
+# Upload via AWS Console or use SAM/CDK for automated deployment
+```
+
+**Create Database Tables:**
+```bash
+# Create Users table
+aws dynamodb create-table \
+  --table-name users \
+  --attribute-definitions AttributeName=userId,AttributeType=S \
+  --key-schema AttributeName=userId,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST
+
+# Create Boards table
+aws dynamodb create-table \
+  --table-name boards \
+  --attribute-definitions AttributeName=boardId,AttributeType=S \
+  --key-schema AttributeName=boardId,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST
+```
+
+You can also do it manually using AWS website.
+
+**Configure API Gateway:**
+- Create HTTP API
+- Set up Lambda proxy integrations
+- Deploy to production stage
+
+**Set up Cognito:**
+- Create User Pool
+- Configure App Client for frontend integration
+- Set up Amplify authentication
+
+#### 2️⃣ **Cloudflare Workers Setup**
+
+If you configured your credentials you can execute folowing commands:
+
+```bash
+cd websocket
+npm install
+
+npx wrangler deploy
+
+npx wrangler r2 bucket create whiteboard-assets
+```
+
+#### 3️⃣ **Frontend Deployment**
+
+```bash
+cd frontend
+npm install
+npm run build
+
+# Deploy to S3
+aws s3 sync build/ s3://your-whiteboard-bucket
+
+# Create CloudFront distribution
+aws cloudfront create-distribution \
+  --distribution-config file://cloudfront-config.json
+```
+
+As well as previously, those steps could be done manually on AWS website.
 
 ---
 
