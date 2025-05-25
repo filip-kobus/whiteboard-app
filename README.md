@@ -1,6 +1,6 @@
 # Whiteboard App
 
-A collaborative whiteboard application built on the powerful [tldraw](https://tldraw.dev/) framework. This app enables users to create accounts, generate unique interactive whiteboards, and share them with others through secure permalink access - no login required for viewers.
+A collaborative whiteboard application built on the [tldraw](https://tldraw.dev/) framework. This app enables users to create accounts, generate unique interactive whiteboards, and share them with others through secure permalink access - no login required.
 
 ## Table of Contents
 
@@ -60,19 +60,14 @@ This project implements a modern serverless architecture combining AWS and Cloud
 
 ## Environment Configuration
 
-Configure these environment variables across all services for proper integration:
+Before deploying the app, configure environmental variables:
 
 #### **Frontend Environment** (`.env.local`)
 ```bash
-# AWS Cognito Configuration
 REACT_APP_COGNITO_CLIENT_ID="your-cognito-client-id"
 REACT_APP_COGNITO_USER_POOL_ID="your-user-pool-id"
-
-# API Endpoints
 REACT_APP_API_URL="https://your-api-gateway-url"
 REACT_APP_TLDRAW_WORKER_URL="https://your-cloudflare-worker-url"
-
-# Application URLs
 REACT_APP_HOST_URL="https://your-domain.com"
 ```
 
@@ -114,7 +109,7 @@ This project uses a serverless architecture designed for cheap, on-demand workfl
 - **CloudFront**: Global CDN with HTTPS
 
 #### **Backend API**
-- **API Gateway**: HTTP endpoints
+- **API Gateway**: REST endpoints
 - **Lambda Functions**: Serverless compute
 - **DynamoDB**: NoSQL database with the following tables:
   - `users`: User profiles and board associations
